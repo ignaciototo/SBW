@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Estudio · Gestión</title>
+<title>Estudio · Gestión Jurídica</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -36,7 +36,7 @@
 
   /* Sidebar */
   .sidebar{
-    width:220px;
+    width:230px;
     flex-shrink:0;
     background:var(--navy-deep);
     color:#EFE9DC;
@@ -56,17 +56,44 @@
     border-bottom: 1px solid rgba(239,233,220,0.15);
     margin-bottom: 12px;
   }
+  .search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
   .search-box input {
     width: 100%;
-    padding: 8px 10px;
+    padding: 8px 28px 8px 10px;
     border-radius: 4px;
-    border: none;
-    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
     color: #fff;
     font-size: 13px;
+    font-family: inherit;
   }
-  .search-box input::placeholder { color: rgba(255,255,255,0.4); }
-  .search-box input:focus { outline: none; background: rgba(255,255,255,0.15); }
+  .search-box input::placeholder { color: rgba(255,255,255,0.45); }
+  .search-box input:focus { outline: none; background: rgba(255,255,255,0.16); border-color: var(--ochre); }
+  .search-clear-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 4px;
+    line-height: 1;
+    display: none;
+  }
+  .search-clear-btn:hover { color: #fff; }
+
+  mark.hl {
+    background: #FFE8A3;
+    color: #211F1C;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-weight: 600;
+  }
 
   .nav{list-style:none;padding:0;margin:0;flex:1;}
   .nav li{margin:0;}
@@ -79,7 +106,7 @@
     font-family:'Inter',sans-serif;
     font-size:13.5px;
     padding:11px 22px;
-    cursor:pointer;
+    cursor:border-left;
     border-left:3px solid transparent;
     display:flex;
     align-items:center;
@@ -102,8 +129,8 @@
   }
 
   /* Main */
-  .main{flex:1;padding:34px 42px;max-width:1080px; overflow-y:auto;}
-  .page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;}
+  .main{flex:1;padding:34px 42px;max-width:1120px; overflow-y:auto;}
+  .page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
   .page-head h2{font-size:23px;}
   .page-head p{margin:4px 0 0 0;color:var(--ink-soft);font-size:13px;}
   .btn{
@@ -129,14 +156,15 @@
   .btn.wa:hover{background:var(--wa-green);color:#fff;}
 
   /* Stat cards */
-  .stats{display:flex;gap:14px;margin-bottom:26px;}
+  .stats{display:flex;gap:14px;margin-bottom:26px;flex-wrap:wrap;}
   .stat{
     flex:1;
+    min-width:150px;
     background:var(--panel);
     border:1px solid var(--line);
     padding:16px 18px;
   }
-  .stat .n{font-family:'Fraunces',serif;font-size:28px;line-height:1;}
+  .stat .n{font-family:'Fraunces',serif;font-size:26px;line-height:1;}
   .stat .l{font-size:12px;color:var(--ink-soft);margin-top:6px;}
   .stat.alert .n{color:var(--burgundy);}
   .stat.warn .n{color:var(--ochre);}
@@ -188,6 +216,31 @@
   .muted{color:var(--ink-soft);}
   .meta-text { font-size:10.5px; color:#958F80; margin-top:3px; display:block; }
 
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .filter-tab {
+    background: #EFE9DC;
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    font-size: 12.5px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-family: inherit;
+    font-weight: 500;
+  }
+  .filter-tab:hover { background: #E6DFC9; }
+  .filter-tab.active {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+
   /* Modal */
   .overlay{
     position:fixed;inset:0;background:rgba(31,28,23,0.45);
@@ -197,9 +250,10 @@
   .modal{
     background:var(--panel);
     border:1px solid var(--line);
-    width:100%;max-width:520px;
+    width:100%;max-width:540px;
     padding:26px 28px 22px 28px;
   }
+  .modal.wide{max-width:740px;}
   .modal h3{font-size:18px;margin-bottom:16px;}
   .field{margin-bottom:14px;}
   .field label{display:block;font-size:12px;color:var(--ink-soft);margin-bottom:5px;font-weight:600;}
@@ -243,8 +297,8 @@
   .timeline-actions{white-space:nowrap;}
 
   .link-btn{background:none;border:none;color:var(--navy);text-decoration:underline;cursor:pointer;font-size:12.5px;padding:0;}
-  .icon-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:13px;padding:2px 4px;}
-  .icon-btn:hover{color:var(--burgundy);}
+  .icon-btn{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:13px;padding:3px 6px;border-radius:2px;}
+  .icon-btn:hover{color:var(--burgundy);background:rgba(0,0,0,0.04);}
 
   /* Ficha partes */
   .ficha-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:16px 18px;background:#fff;}
@@ -252,6 +306,19 @@
   .ficha-dato{font-size:13.5px;margin-bottom:8px;}
   .ficha-dato strong{display:block;font-weight:500;}
   .ficha-dato span{color:var(--ink-soft);font-size:12.5px;}
+  
+  .badge-tag{
+    display:inline-block;
+    padding:2px 6px;
+    background:#EAE5D8;
+    color:var(--navy-deep);
+    border-radius:3px;
+    font-size:11px;
+    font-family:monospace;
+    cursor:pointer;
+    margin:2px;
+  }
+  .badge-tag:hover{background:var(--navy);color:#fff;}
 </style>
 </head>
 <body>
@@ -265,23 +332,168 @@ const timeStr = () => new Date().toLocaleTimeString('es-AR', {hour: '2-digit', m
 const addDays = n => { const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
 
 let state = {
-  config: { rutaRaiz: '\\\\SERVIDOR\\Estudio\\', usuarioActual: 'Usuario 1' },
+  config: { 
+    rutaRaiz: '\\\\SERVIDOR\\Estudio\\', 
+    usuarioActual: 'Ignacio',
+    abogadoNombre: 'Dr. Ignacio Toto',
+    abogadoMatricula: 'T° 120 F° 450 CPACF',
+    abogadoCuit: '20-33445566-9',
+    domicilioConstituido: 'Tucumán 1450, Piso 4° "A", CABA',
+    domicilioElectronico: '20334455669',
+    banco: 'Banco Galicia',
+    titularCuenta: 'Ignacio Toto',
+    alias: 'ESTUDIO.TOTO.LEGAL',
+    cbu: '0170099320000012345678'
+  },
   clientes: [], expedientes: [], vencimientos: [], eventos: [], documentos: [],
   formatos: [], tiposTramite: [], gastos: [], honorarios: [], ferias: [],
-  view: 'panel', selectedExpedienteId: null, modal: null, searchQuery: ''
+  view: 'panel', prevView: 'panel', selectedExpedienteId: null, modal: null, searchQuery: '',
+  expedientesFiltroEstado: 'activos',
+  expedientesFiltroTexto: ''
 };
 
 // --- Datos Semilla ---
 const seed = {
-  config: { rutaRaiz: '\\\\SERVIDOR\\Estudio\\', usuarioActual: 'Ignacio' },
+  config: { 
+    rutaRaiz: '\\\\SERVIDOR\\Estudio\\', 
+    usuarioActual: 'Ignacio',
+    abogadoNombre: 'Dr. Ignacio Toto',
+    abogadoMatricula: 'T° 120 F° 450 CPACF',
+    abogadoCuit: '20-33445566-9',
+    domicilioConstituido: 'Tucumán 1450, Piso 4° "A", CABA',
+    domicilioElectronico: '20334455669',
+    banco: 'Banco Galicia',
+    titularCuenta: 'Ignacio Toto',
+    alias: 'ESTUDIO.TOTO.LEGAL',
+    cbu: '0170099320000012345678'
+  },
   clientes: [
-    {id: uid(), nombre:'María Fernanda Ríos', doc:'27-33445566-1', telefono:'011-4455-1122', email:'mfrios@mail.com', notas:''}
+    {id: uid(), nombre:'María Fernanda Ríos', doc:'27-33445566-1', telefono:'011-4455-1122', email:'mfrios@mail.com', notas:'Cliente preferencial'}
   ],
-  expedientes: [], vencimientos: [], eventos: [], documentos: [], formatos: [], tiposTramite: [], gastos: [], honorarios: [], ferias: []
+  expedientes: [], vencimientos: [], eventos: [], documentos: [],
+  formatos: [
+    {
+      id: uid(),
+      nombre: 'Acredita personería y constituye domicilio',
+      categoria: 'Escrito',
+      contenido: `ACREDITA PERSONERÍA. CONSTITUYE DOMICILIO PROCESAL Y ELECTRÓNICO.
+
+Señor Juez:
+
+{{abogado}}, abogado inscripto al {{tomo_folio}}, CUIT {{abogado_cuit}}, constituyendo domicilio procesal en {{domicilio_constituido}} y domicilio electrónico en {{domicilio_electronico}}, en representación de {{cliente}}, con DNI/CUIT {{cliente_doc}}, en los autos caratulados "{{caratula}}" (Expte. N° {{numero}}), en trámite ante el {{juzgado}}, respetuosamente me presento y digo:
+
+I. PERSONERÍA
+Que conforme lo acredito con la copia de poder que acompaño, vengo a asumir la representación legal de {{cliente}}, solicitando se me tenga por presentado y por parte en el carácter invocado.
+
+II. DOMICILIO
+Asimismo, vengo a constituir domicilio procesal y electrónico en los lugares indicados en el encabezamiento.
+
+III. PETITORIO
+Por todo lo expuesto, a V.S. solicito:
+1. Me tenga por presentado, por parte y por constituido el domicilio procesal y electrónico.
+2. Se tengan presentes las manifestaciones vertidas para la prosecución del trámite.
+
+Proveer de conformidad,
+SERÁ JUSTICIA.`
+    },
+    {
+      id: uid(),
+      nombre: 'Solicita se libre cédula de traslado de demanda',
+      categoria: 'Cédula',
+      contenido: `SOLICITA SE LIBRE CÉDULA DE TRASLADO DE DEMANDA.
+
+Señor Juez:
+
+{{abogado}}, por la representación oportunamente acreditada de {{cliente}}, en los autos "{{caratula}}" (Expte. N° {{numero}}), ante V.S. respetuosamente digo:
+
+Que atento al estado de autos y encontrándose trabada la litis pendiente de notificación, vengo a solicitar se ordene el libramiento de la pertinente cédula de traslado de demanda a la demandada {{contraparte}}, haciéndose constar las copias de ley.
+
+Proveer de conformidad,
+SERÁ JUSTICIA.`
+    },
+    {
+      id: uid(),
+      nombre: 'Acompaña comprobante de Bono Ley y Tasa',
+      categoria: 'Escrito',
+      contenido: `ACOMPAÑA COMPROBANTE DE BONO DE DERECHO FIJO Y TASA DE JUSTICIA.
+
+Señor Juez:
+
+{{abogado}}, por la parte actora en los autos "{{caratula}}" (Expte. N° {{numero}}), ante V.S. me presento y digo:
+
+Que en legal tiempo y forma, vengo a adjuntar para su agregación en autos la constancia de pago del Bono de Derecho Fijo correspondiente al Colegio Público de Abogados, dando así debido cumplimiento a las exigencias arancelarias y procesales de ley.
+
+Por tanto, a V.S. solicito se tenga por cumplimentada la carga legal.
+
+Proveer de conformidad,
+SERÁ JUSTICIA.`
+    }
+  ],
+  tiposTramite: [
+    {id: uid(), nombre: 'Traslado de Demanda', dias: 15, modo: 'habiles'},
+    {id: uid(), nombre: 'Recurso de Apelación', dias: 5, modo: 'habiles'},
+    {id: uid(), nombre: 'Contestar Excepciones', dias: 5, modo: 'habiles'},
+    {id: uid(), nombre: 'Plazo Extrajudicial', dias: 10, modo: 'corridos'}
+  ],
+  gastos: [], honorarios: [],
+  ferias: [
+    {id: uid(), nombre: 'Feria Judicial de Enero', desde: '2026-01-01', hasta: '2026-01-31'},
+    {id: uid(), nombre: 'Feria Judicial de Invierno', desde: '2026-07-13', hasta: '2026-07-24'}
+  ]
 };
+
 // Agrego un expediente semilla
-seed.expedientes.push({id: uid(), caratula:'Ríos, María F. c/ Seguros del Sur s/ Daños', fuero:'Civil', juzgado:'Juzg 42', numero:'CIV 12345/2025', clienteId: seed.clientes[0].id, estado:'activo', responsable:'Ignacio', notas:'', contraparteNombre:'Seguros del Sur', contraparteAbogado:'', contraparteContacto:'', linkPortal:'', rutaCarpeta:'\\\\SERVIDOR\\Estudio\\rios\\daños', creadoPor:'Sistema', creadoEn:todayStr()});
-seed.honorarios.push({id: uid(), expedienteId: seed.expedientes[0].id, concepto:'Pacto Cuota Litis (20%)', monto: 500000, cuotas: 1, pagado: 0, fechaVencimiento: addDays(30), notas: 'A cobrar con la liquidación final', creadoPor:'Sistema'});
+seed.expedientes.push({
+  id: uid(),
+  caratula: 'Ríos, María F. c/ Seguros del Sur s/ Daños',
+  fuero: 'Civil',
+  juzgado: 'Juzgado Civil N° 42 - Sec. 84',
+  numero: 'CIV 12345/2025',
+  clienteId: seed.clientes[0].id,
+  estado: 'activo',
+  responsable: 'Ignacio',
+  notas: 'Juicio ordinario por accidente de tránsito.',
+  contraparteNombre: 'Seguros del Sur S.A.',
+  contraparteAbogado: 'Dr. Roberto Méndez (T° 45 F° 112)',
+  contraparteContacto: 'contacto@seguros.com',
+  linkPortal: 'https://pjn.gov.ar',
+  rutaCarpeta: '\\\\SERVIDOR\\Estudio\\rios\\daños',
+  creadoPor: 'Sistema',
+  creadoEn: todayStr()
+});
+
+seed.honorarios.push({
+  id: uid(),
+  expedienteId: seed.expedientes[0].id,
+  concepto: 'Pacto Cuota Litis (20%)',
+  monto: 500000,
+  cuotas: 1,
+  pagado: 0,
+  fechaVencimiento: addDays(30),
+  notas: 'A cobrar con la liquidación final',
+  creadoPor: 'Sistema'
+});
+
+seed.gastos.push({
+  id: uid(),
+  expedienteId: seed.expedientes[0].id,
+  fecha: todayStr(),
+  concepto: 'Bono Ley 23.187 y Tasa de Justicia inicial',
+  importe: 18500,
+  pagadoPor: 'estudio',
+  reintegrado: false,
+  creadoPor: 'Sistema'
+});
+
+seed.documentos.push({
+  id: uid(),
+  expedienteId: seed.expedientes[0].id,
+  nombre: 'Demanda de Daños y Perjuicios (firmada).pdf',
+  tipo: 'Demanda',
+  fecha: todayStr(),
+  rutaArchivo: '\\\\SERVIDOR\\Estudio\\rios\\daños\\Demanda_Daños_Rios_c_Seguros.pdf',
+  creadoPor: 'Sistema'
+});
 
 // --- Carga y Guardado ---
 async function loadState(){
@@ -289,17 +501,17 @@ async function loadState(){
     let res = window.storage ? await window.storage.get('estudio-data') : { value: localStorage.getItem('estudio-data') };
     if(res && res.value){
       const parsed = JSON.parse(res.value);
-      state.config = parsed.config || seed.config;
+      state.config = { ...seed.config, ...(parsed.config || {}) };
       state.clientes = parsed.clientes || [];
       state.expedientes = parsed.expedientes || [];
       state.vencimientos = parsed.vencimientos || [];
       state.eventos = parsed.eventos || [];
-      state.documentos = parsed.documentos || [];
-      state.formatos = parsed.formatos || [];
-      state.tiposTramite = parsed.tiposTramite || [];
+      state.documentos = (parsed.documentos && parsed.documentos.length) ? parsed.documentos : seed.documentos;
+      state.formatos = (parsed.formatos && parsed.formatos.length) ? parsed.formatos : seed.formatos;
+      state.tiposTramite = (parsed.tiposTramite && parsed.tiposTramite.length) ? parsed.tiposTramite : seed.tiposTramite;
       state.gastos = parsed.gastos || [];
       state.honorarios = parsed.honorarios || [];
-      state.ferias = parsed.ferias || [];
+      state.ferias = (parsed.ferias && parsed.ferias.length) ? parsed.ferias : seed.ferias;
     } else {
       state = {...state, ...seed};
       await saveState();
@@ -323,27 +535,311 @@ function showToast(msg){
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 3500);
 }
+
 function clienteNombre(id){ const c = state.clientes.find(c=>c.id===id); return c ? c.nombre : '—'; }
 function expedienteCaratula(id){ const e = state.expedientes.find(e=>e.id===id); return e ? e.caratula : '—'; }
 function fmtFecha(f){ if(!f) return ''; const [y,m,d]=f.split('-'); return `${d}/${m}/${y}`; }
-function formatDinero(num){ return new Intl.NumberFormat('es-AR', {style:'currency', currency:'ARS'}).format(num); }
+function formatDinero(num){ return new Intl.NumberFormat('es-AR', {style:'currency', currency:'ARS'}).format(num || 0); }
 function escAttr(obj){ return `JSON.parse(decodeURIComponent('${encodeURIComponent(JSON.stringify(obj))}'))`; }
-function setView(v){ state.view = v; state.searchQuery = ''; render(); }
-function openModal(type, data){ state.modal = {type, data: data ? {...data} : null}; render(); }
-function closeModal(){ state.modal = null; render(); }
-function viewExpediente(id){ state.selectedExpedienteId = id; setView('expediente-detail'); }
+
 function sanitizePathName(str) {
   if(!str) return 'sin_nombre';
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-zA-Z0-9]/g, "_").toLowerCase().replace(/_+/g, '_');
 }
 
-// --- Funciones Nuevas (Reporte, WA, Búsqueda, Archivo) ---
-function handleSearch(q) {
-  state.searchQuery = q.toLowerCase();
-  state.view = state.searchQuery.length > 1 ? 'search' : 'panel';
+function normStr(str) {
+  if (!str) return '';
+  return str.toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function highlightMatch(text, query) {
+  if (!text) return '';
+  const textStr = String(text);
+  const qNorm = normStr(query);
+  if (!qNorm) return escapeHtml(textStr);
+  const tNorm = normStr(textStr);
+  const idx = tNorm.indexOf(qNorm);
+  if (idx === -1) return escapeHtml(textStr);
+  
+  const before = escapeHtml(textStr.slice(0, idx));
+  const match = escapeHtml(textStr.slice(idx, idx + qNorm.length));
+  const after = escapeHtml(textStr.slice(idx + qNorm.length));
+  return `${before}<mark class="hl">${match}</mark>${after}`;
+}
+
+// Cómputo de plazos procesales judiciales: días corridos o hábiles (excluye fines de semana y ferias)
+function addBusinessDays(startDateStr, days, modo) {
+  let d = new Date(startDateStr + 'T00:00:00');
+  const numDays = Math.max(1, Number(days) || 1);
+  if (modo === 'corridos') {
+    d.setDate(d.getDate() + numDays);
+    return d.toISOString().slice(0, 10);
+  }
+  let added = 0;
+  while (added < numDays) {
+    d.setDate(d.getDate() + 1);
+    const dayOfWeek = d.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+    const dateStr = d.toISOString().slice(0, 10);
+    const enFeria = (state.ferias || []).some(f => dateStr >= f.desde && dateStr <= f.hasta);
+    if (enFeria) continue;
+    added++;
+  }
+  return d.toISOString().slice(0, 10);
+}
+
+// --- Generador de Escritos Dinámicos ---
+function generarEscritoDesdePlantilla(plantillaId, expedienteId) {
+  const plantilla = state.formatos.find(f => f.id === plantillaId);
+  const exp = state.expedientes.find(e => e.id === expedienteId);
+  if (!plantilla || !exp) return '';
+
+  const cli = state.clientes.find(c => c.id === exp.clienteId) || {};
+  const hoy = new Date();
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const fechaLarga = `${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()}`;
+
+  const vars = {
+    '{{caratula}}': exp.caratula || '',
+    '{{numero}}': exp.numero || '',
+    '{{fuero}}': exp.fuero || '',
+    '{{juzgado}}': exp.juzgado || '',
+    '{{cliente}}': cli.nombre || '',
+    '{{cliente_doc}}': cli.doc || '',
+    '{{cliente_telefono}}': cli.telefono || '',
+    '{{cliente_email}}': cli.email || '',
+    '{{contraparte}}': exp.contraparteNombre || '',
+    '{{contraparte_abogado}}': exp.contraparteAbogado || '',
+    '{{abogado}}': state.config.abogadoNombre || state.config.usuarioActual || 'Dr/a. Abogado/a',
+    '{{tomo_folio}}': state.config.abogadoMatricula || 'T° ... F° ...',
+    '{{abogado_cuit}}': state.config.abogadoCuit || '',
+    '{{domicilio_constituido}}': state.config.domicilioConstituido || '',
+    '{{domicilio_electronico}}': state.config.domicilioElectronico || '',
+    '{{fecha}}': fechaLarga,
+    '{{fecha_corta}}': fmtFecha(todayStr())
+  };
+
+  let texto = plantilla.contenido || '';
+  Object.keys(vars).forEach(key => {
+    texto = texto.split(key).join(vars[key]);
+  });
+  return texto;
+}
+
+function cambiarPlantillaEscrito(expId, plantillaId) {
+  const txt = generarEscritoDesdePlantilla(plantillaId, expId);
+  const ta = document.getElementById('texto-escrito-generado');
+  if (ta) ta.value = txt;
+}
+
+function copiarEscritoAlPortapapeles() {
+  const ta = document.getElementById('texto-escrito-generado');
+  if (ta) {
+    copiarAlPortapapeles(ta.value, '¡Escrito copiado al portapapeles!');
+  }
+}
+
+function descargarEscrito(caratula) {
+  const ta = document.getElementById('texto-escrito-generado');
+  if (!ta) return;
+  const blob = new Blob([ta.value], { type: 'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `Escrito_${sanitizePathName(caratula)}.txt`;
+  a.click();
+  showToast('Escrito descargado');
+}
+
+async function guardarEscritoComoDocumento(expId, caratula) {
+  const ta = document.getElementById('texto-escrito-generado');
+  if (!ta) return;
+  const exp = state.expedientes.find(e => e.id === expId);
+  const base = exp?.rutaCarpeta || state.config.rutaRaiz || '\\\\SERVIDOR\\Estudio\\';
+  const sep = (base.endsWith('\\') || base.endsWith('/')) ? '' : '\\';
+  const nombreArchivo = `Escrito_${todayStr()}.docx`;
+  const rutaCompleta = `${base}${sep}${nombreArchivo}`;
+
+  const doc = {
+    id: uid(),
+    expedienteId: expId,
+    nombre: `Escrito generado (${fmtFecha(todayStr())})`,
+    tipo: 'Escrito',
+    fecha: todayStr(),
+    rutaArchivo: rutaCompleta,
+    creadoPor: state.config.usuarioActual,
+    creadoEn: todayStr()
+  };
+  state.documentos.push(doc);
+  await saveState();
+  render();
+  showToast('Escrito registrado en Documentos de la causa.');
+}
+
+function usarPlantillaEnExpediente(formatoId) {
+  const activos = state.expedientes.filter(e => e.estado === 'activo');
+  if (activos.length === 0) {
+    alert('No hay expedientes activos para aplicar esta plantilla. Creá primero una causa judicial.');
+    return;
+  }
+  if (activos.length === 1) {
+    openModal('redactar_escrito', { expedienteId: activos[0].id, formatoId });
+    return;
+  }
+  openModal('seleccionar_causa_para_plantilla', { formatoId });
+}
+
+// --- Generador de Resumen de Cobranza ---
+function generarTextoResumenCobranza(expId) {
+  const exp = state.expedientes.find(e => e.id === expId);
+  if(!exp) return '';
+  const cli = state.clientes.find(c => c.id === exp.clienteId) || {};
+  const hons = state.honorarios.filter(h => h.expedienteId === expId);
+  const gastos = state.gastos.filter(g => g.expedienteId === expId && g.pagadoPor === 'estudio' && !g.reintegrado);
+
+  const saldoHonorarios = hons.reduce((acc, h) => acc + (Number(h.monto || 0) - Number(h.pagado || 0)), 0);
+  const totalGastosPendientes = gastos.reduce((acc, g) => acc + Number(g.importe || 0), 0);
+  const totalGeneralAPagar = saldoHonorarios + totalGastosPendientes;
+
+  let txt = `*ESTADO DE CUENTA - ESTUDIO JURÍDICO*\n`;
+  txt += `Estimado/a *${cli.nombre || 'Cliente'}*:\nLe enviamos el resumen de saldos de su causa:\n_${exp.caratula}_\n\n`;
+  
+  if (saldoHonorarios > 0) {
+    txt += `*1. Honorarios profesionales pendientes:* ${formatDinero(saldoHonorarios)}\n`;
+  }
+  if (totalGastosPendientes > 0) {
+    txt += `*2. Gastos judiciales adelantados por el estudio a reintegrar:* ${formatDinero(totalGastosPendientes)}\n`;
+    gastos.forEach(g => {
+      txt += `   - ${fmtFecha(g.fecha)}: ${g.concepto} (${formatDinero(g.importe)})\n`;
+    });
+  }
+  txt += `\n*TOTAL A ABONAR:* ${formatDinero(totalGeneralAPagar)}\n\n`;
+  txt += `🏦 *Datos bancarios para transferencia:*\n`;
+  txt += `- Banco: ${state.config.banco || 'Banco Galicia'}\n`;
+  txt += `- Titular: ${state.config.titularCuenta || 'Ignacio Toto'}\n`;
+  txt += `- Alias: *${state.config.alias || 'ESTUDIO.TOTO.LEGAL'}*\n`;
+  txt += `- CBU: ${state.config.cbu || '0170099320000012345678'}\n\n`;
+  txt += `Una vez realizada la transferencia, le solicitamos nos envíe el comprobante por este medio. ¡Muchas gracias!`;
+  return txt;
+}
+
+function copiarResumenCobranza(expId) {
+  const txt = generarTextoResumenCobranza(expId);
+  copiarAlPortapapeles(txt, 'Resumen de liquidación copiado');
+}
+
+function enviarCobranzaWhatsApp(expId) {
+  const exp = state.expedientes.find(e => e.id === expId);
+  const cli = state.clientes.find(c => c.id === exp.clienteId);
+  if (!cli || !cli.telefono) {
+    showToast('El cliente no tiene un teléfono cargado en su ficha.');
+    return;
+  }
+  const telLimpio = cli.telefono.replace(/\D/g, '');
+  const txt = generarTextoResumenCobranza(expId);
+  window.open(`https://wa.me/549${telLimpio}?text=${encodeURIComponent(txt)}`, '_blank');
+}
+
+// --- Control de Vistas y Búsqueda ---
+function setView(v){ 
+  state.prevView = v; 
+  state.view = v; 
+  state.searchQuery = ''; 
+  const searchInput = document.getElementById('global-search-input');
+  const clearBtn = document.getElementById('search-clear-btn');
+  if (searchInput) searchInput.value = '';
+  if (clearBtn) clearBtn.style.display = 'none';
+  render(); 
+}
+
+function openModal(type, data){ state.modal = {type, data: data ? {...data} : null}; render(); }
+function closeModal(){ state.modal = null; render(); }
+function viewExpediente(id){ state.selectedExpedienteId = id; setView('expediente-detail'); }
+
+function handleSearchInput(q) {
+  state.searchQuery = q;
+  const clearBtn = document.getElementById('search-clear-btn');
+  if (clearBtn) clearBtn.style.display = q.length > 0 ? 'block' : 'none';
+
+  const qTrim = q.trim();
+  if (qTrim.length > 0) {
+    if (state.view !== 'search') {
+      state.prevView = state.view;
+      state.view = 'search';
+    }
+  } else {
+    state.view = state.prevView || 'panel';
+  }
   render();
 }
 
+function clearSearch() {
+  state.searchQuery = '';
+  const searchInput = document.getElementById('global-search-input');
+  const clearBtn = document.getElementById('search-clear-btn');
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.focus();
+  }
+  if (clearBtn) clearBtn.style.display = 'none';
+  state.view = state.prevView || 'panel';
+  render();
+}
+
+function copiarAlPortapapeles(texto, mensajeExito) {
+  if (!texto) { showToast('No hay texto para copiar'); return; }
+  navigator.clipboard.writeText(texto).then(() => {
+    showToast(mensajeExito || 'Copiado al portapapeles');
+  }).catch(() => {
+    showToast('No se pudo copiar');
+  });
+}
+
+function insertarTagEnPlantilla(tag) {
+  copiarAlPortapapeles(tag, `Variable ${tag} copiada. Pegala en el contenido de la plantilla.`);
+}
+
+// --- Exportación e Importación de Copias de Seguridad ---
+function exportarBackupJSON() {
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+  const dlAnchorElem = document.createElement('a');
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", `estudio_backup_${todayStr()}.json`);
+  dlAnchorElem.click();
+  showToast('Copia de seguridad descargada exitosamente.');
+}
+
+function importarBackupJSON(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data && (data.clientes || data.expedientes)) {
+        state = { ...state, ...data };
+        await saveState();
+        render();
+        showToast('¡Datos del estudio restaurados con éxito!');
+      } else {
+        alert('El archivo seleccionado no tiene el formato de respaldo del estudio.');
+      }
+    } catch(err) {
+      alert('Error al leer el archivo JSON: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// --- Funciones del Estudio (Reportes, WhatsApp, Archivo) ---
 async function generarReporteCliente(expId) {
   const e = state.expedientes.find(x=>x.id===expId);
   const evs = state.eventos.filter(ev=>ev.expedienteId===expId).sort((a,b)=>b.fecha.localeCompare(a.fecha)).slice(0, 10);
@@ -419,7 +915,6 @@ async function saveGeneric(col, form){
     data.creadoPor = state.config.usuarioActual;
     data.creadoEn = now;
   } else {
-    // Preservar quien lo creo originalmente
     const existing = state[col].find(x=>x.id===data.id);
     if(existing) { data.creadoPor = existing.creadoPor; data.creadoEn = existing.creadoEn; }
   }
@@ -428,9 +923,27 @@ async function saveGeneric(col, form){
   if(idx>=0) state[col][idx]=data; else state[col].push(data);
   await saveState(); closeModal(); render();
 }
-async function deleteGeneric(col, id){ state[col] = state[col].filter(x=>x.id!==id); await saveState(); render(); }
+async function deleteGeneric(col, id){ 
+  state[col] = state[col].filter(x=>x.id!==id); 
+  await saveState(); render(); 
+}
 
 async function saveCliente(f){ await saveGeneric('clientes', f); showToast('Cliente guardado'); }
+
+async function deleteCliente(id) {
+  const exps = state.expedientes.filter(e => e.clienteId === id);
+  if (exps.length > 0) {
+    alert(`No se puede eliminar el cliente porque tiene ${exps.length} expediente(s) asociado(s).\nPrimero debe reasignar o eliminar dichos expedientes.`);
+    return;
+  }
+  const c = state.clientes.find(x => x.id === id);
+  const nombre = c ? c.nombre : 'este cliente';
+  if (confirm(`¿Estás seguro de que deseas eliminar al cliente "${nombre}"?`)) {
+    await deleteGeneric('clientes', id);
+    showToast('Cliente eliminado correctamente.');
+  }
+}
+
 async function saveExpediente(f){ 
   if(!f.rutaCarpeta || f.rutaCarpeta.trim() === '') {
     const cli = state.clientes.find(c => c.id === f.clienteId);
@@ -441,29 +954,60 @@ async function saveExpediente(f){
   await saveGeneric('expedientes', {...f, estado: f.estado||'activo'}); 
   showToast('Expediente guardado'); 
 }
-async function saveHonorario(f){ await saveGeneric('honorarios', {...f, monto: Number(f.monto), pagado: Number(f.pagado), cuotas: Number(f.cuotas)}); showToast('Honorario registrado'); }
-async function deleteHonorario(id){ await deleteGeneric('honorarios', id); }
 
-// (Omito repetición de saves genéricos. Apuntan todos a saveGeneric)
+async function saveHonorario(f){ await saveGeneric('honorarios', {...f, monto: Number(f.monto), pagado: Number(f.pagado), cuotas: Number(f.cuotas)}); showToast('Honorario registrado'); }
+async function deleteHonorario(id){ 
+  if(confirm('¿Eliminar este registro de honorario?')) {
+    await deleteGeneric('honorarios', id); 
+    showToast('Honorario eliminado');
+  }
+}
+
 const saveVencimiento = async(f) => { await saveGeneric('vencimientos', {...f, cumplido: f.cumplido==='true'||f.cumplido===true}); showToast('Vencimiento guardado'); };
-const saveGasto = async(f) => { await saveGeneric('gastos', {...f, importe: Number(f.importe), reintegrado: f.reintegrado==='on'}); showToast('Gasto registrado'); };
+const saveGasto = async(f) => { await saveGeneric('gastos', {...f, importe: Number(f.importe), reintegrado: f.reintegrado==='on'||f.reintegrado===true}); showToast('Gasto registrado'); };
+async function deleteGasto(id){ 
+  if(confirm('¿Eliminar este gasto?')) {
+    await deleteGeneric('gastos', id); 
+    showToast('Gasto eliminado');
+  }
+}
+async function toggleGastoReintegrado(id){
+  const g = state.gastos.find(x=>x.id===id);
+  if(g){
+    g.reintegrado = !g.reintegrado;
+    g.actualizadoPor = state.config.usuarioActual;
+    g.actualizadoEn = todayStr();
+    await saveState();
+    render();
+    showToast(g.reintegrado ? 'Gasto marcado como reintegrado' : 'Gasto marcado como pendiente');
+  }
+}
+
 const saveFeria = async(f) => { await saveGeneric('ferias', f); showToast('Feria guardada'); };
-const saveFormato = async(f) => { await saveGeneric('formatos', f); showToast('Formato guardado'); };
+const saveFormato = async(f) => { await saveGeneric('formatos', f); showToast('Plantilla guardada'); };
 const saveTramite = async(f) => { await saveGeneric('tiposTramite', {...f, dias: Number(f.dias)}); showToast('Plazo guardado'); };
-const saveDocumento = async(f) => { await saveGeneric('documentos', f); showToast('Documento guardado'); };
+const saveDocumento = async(f) => { await saveGeneric('documentos', f); showToast('Documento guardado con su ruta'); };
 
 async function saveEvento(form){
   const data = { id: form.id || uid(), expedienteId: form.expedienteId, fecha: form.fecha, descripcion: form.descripcion, documentoId: form.documentoId || '', tipoTramiteId: form.tipoTramiteId || '' };
   await saveGeneric('eventos', data);
   const tramite = state.tiposTramite.find(t=>t.id===data.tipoTramiteId);
   if(tramite){
-    showToast('Calculando vencimiento sugerido…');
-    // Para no complicar con async/await en feriados acá, asumo suma de días simple para el MVP o llamas a tu función addBusinessDays
-    const d = new Date(data.fecha+'T00:00:00'); d.setDate(d.getDate() + tramite.dias);
-    openModal('vencimiento', { expedienteId: data.expedienteId, tipo: tramite.nombre, fecha: d.toISOString().slice(0,10), notas: `Sugerido por: "${data.descripcion}"`});
+    showToast('Calculando vencimiento según plazos judiciales…');
+    const fechaVto = addBusinessDays(data.fecha, tramite.dias, tramite.modo);
+    openModal('vencimiento', { expedienteId: data.expedienteId, tipo: tramite.nombre, fecha: fechaVto, notas: `Sugerido por trámite "${tramite.nombre}" (${tramite.dias} días ${tramite.modo})`});
   }
 }
-async function toggleCumplido(id){ const v = state.vencimientos.find(v=>v.id===id); if(v){ v.cumplido = !v.cumplido; v.actualizadoPor = state.config.usuarioActual; await saveState(); render(); } }
+
+async function toggleCumplido(id){ 
+  const v = state.vencimientos.find(v=>v.id===id); 
+  if(v){ 
+    v.cumplido = !v.cumplido; 
+    v.actualizadoPor = state.config.usuarioActual; 
+    await saveState(); 
+    render(); 
+  } 
+}
 
 function estadoVencimiento(v){
   if(v.cumplido) return 'cumplido';
@@ -475,8 +1019,10 @@ function estadoVencimiento(v){
   return 'programado';
 }
 const estadoLabel = {vencido:'Vencido', hoy:'Vence HOY', proximo:'Próximo', programado:'Programado', cumplido:'Cumplido'};
+
 function getSemaforoInactividad(expedienteId) {
   const e = state.expedientes.find(x=>x.id===expedienteId);
+  if(!e) return '';
   if(e.estado === 'archivado') return `<span class="tag archivado">Archivado</span>`;
   const evs = state.eventos.filter(ev => ev.expedienteId === expedienteId).sort((a,b) => b.fecha.localeCompare(a.fecha));
   if (evs.length === 0) return `<span class="tag archivado">Sin mov.</span>`;
@@ -486,35 +1032,78 @@ function getSemaforoInactividad(expedienteId) {
   return `<span class="tag vencido" style="font-weight:700;">${diff}d (Paralizado)</span>`;
 }
 
+// --- Arquitectura de Renderizado Reactivo (Preserva DOM y Foco) ---
+function ensureAppLayout() {
+  let appEl = document.getElementById('app-container');
+  if (!appEl) {
+    root.className = '';
+    root.innerHTML = `
+    <div class="app" id="app-container">
+      <div class="sidebar" id="sidebar">
+        <div class="brand">
+          <h1>Estudio · Gestión</h1>
+          <span id="usuario-badge">Usuario Activo: ${escapeHtml(state.config.usuarioActual)}</span>
+        </div>
+        <div class="search-box">
+          <div class="search-input-wrapper">
+            <input type="text" id="global-search-input" placeholder="🔍 Buscar causas, clientes, trámites..." autocomplete="off">
+            <button type="button" id="search-clear-btn" class="search-clear-btn" title="Limpiar búsqueda (Esc)">×</button>
+          </div>
+        </div>
+        <ul class="nav" id="sidebar-nav"></ul>
+        <div style="padding: 20px;">
+          <button class="btn secondary small" style="width:100%; border-color: rgba(255,255,255,0.2); color: #B9AF97;" onclick="setView('config')">⚙ Configuración</button>
+        </div>
+      </div>
+      <div class="main" id="main-content"></div>
+    </div>
+    <div id="modal-container"></div>
+    `;
 
-// --- Renders ---
+    const searchInput = document.getElementById('global-search-input');
+    const clearBtn = document.getElementById('search-clear-btn');
+
+    searchInput.addEventListener('input', (e) => {
+      handleSearchInput(e.target.value);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        clearSearch();
+      }
+    });
+
+    clearBtn.addEventListener('click', () => {
+      clearSearch();
+    });
+  }
+}
+
 function render(){
+  ensureAppLayout();
   const pend = state.vencimientos.filter(v=>!v.cumplido);
   
-  root.className='';
-  root.innerHTML = `
-  <div class="app">
-    <div class="sidebar">
-      <div class="brand">
-        <h1>Estudio · Gestión</h1>
-        <span>Usuario Activo: ${state.config.usuarioActual}</span>
-      </div>
-      <div class="search-box">
-        <input type="text" placeholder="🔍 Buscar cliente, expte..." onkeyup="handleSearch(this.value)" value="${state.searchQuery}">
-      </div>
-      <ul class="nav">
-        <li><button class="${state.view==='panel'?'active':''}" onclick="setView('panel')">Panel</button></li>
-        <li><button class="${state.view==='expedientes'||state.view==='expediente-detail'?'active':''}" onclick="setView('expedientes')">Expedientes <span class="count">${state.expedientes.filter(e=>e.estado==='activo').length}</span></button></li>
-        <li><button class="${state.view==='agenda'?'active':''}" onclick="setView('agenda')">Agenda ${pend.length?`<span class="count">${pend.length}</span>`:''}</button></li>
-        <li><button class="${state.view==='clientes'?'active':''}" onclick="setView('clientes')">Clientes <span class="count">${state.clientes.length}</span></button></li>
-        <li><button class="${state.view==='formatos'?'active':''}" onclick="setView('formatos')">Formatos <span class="count">${state.formatos.length}</span></button></li>
-        <li><button class="${state.view==='tramites'?'active':''}" onclick="setView('tramites')">Plazos</button></li>
-      </ul>
-      <div style="padding: 20px;">
-        <button class="btn secondary small" style="width:100%; border-color: rgba(255,255,255,0.2); color: #B9AF97;" onclick="setView('config')">⚙ Configuración</button>
-      </div>
-    </div>
-    <div class="main">${
+  // Actualizar usuario en badge
+  const userBadge = document.getElementById('usuario-badge');
+  if (userBadge) userBadge.textContent = `Usuario Activo: ${state.config.usuarioActual}`;
+
+  // Actualizar Sidebar Navigation
+  const navEl = document.getElementById('sidebar-nav');
+  if (navEl) {
+    navEl.innerHTML = `
+      <li><button class="${state.view==='panel'?'active':''}" onclick="setView('panel')">Panel</button></li>
+      <li><button class="${state.view==='expedientes'||state.view==='expediente-detail'?'active':''}" onclick="setView('expedientes')">Expedientes <span class="count">${state.expedientes.filter(e=>e.estado==='activo').length}</span></button></li>
+      <li><button class="${state.view==='agenda'?'active':''}" onclick="setView('agenda')">Agenda ${pend.length?`<span class="count">${pend.length}</span>`:''}</button></li>
+      <li><button class="${state.view==='clientes'?'active':''}" onclick="setView('clientes')">Clientes <span class="count">${state.clientes.length}</span></button></li>
+      <li><button class="${state.view==='formatos'?'active':''}" onclick="setView('formatos')">Modelos / Escritos <span class="count">${state.formatos.length}</span></button></li>
+      <li><button class="${state.view==='tramites'?'active':''}" onclick="setView('tramites')">Plazos</button></li>
+    `;
+  }
+
+  // Actualizar Main Content
+  const mainEl = document.getElementById('main-content');
+  if (mainEl) {
+    mainEl.innerHTML = 
       state.view==='search' ? renderSearch() :
       state.view==='panel' ? renderPanel(pend) :
       state.view==='expedientes' ? renderExpedientes() :
@@ -523,49 +1112,172 @@ function render(){
       state.view==='clientes' ? renderClientes() :
       state.view==='formatos' ? renderFormatos() :
       state.view==='tramites' ? renderTramites() :
-      renderConfig()
-    }</div>
-  </div>
-  ${state.modal ? renderModal() : ''}
-  `;
-  if(state.modal) attachModalEvents();
+      renderConfig();
+  }
+
+  // Actualizar Modales
+  const modalContainer = document.getElementById('modal-container');
+  if (modalContainer) {
+    modalContainer.innerHTML = state.modal ? renderModal() : '';
+    if (state.modal) attachModalEvents();
+  }
 }
 
+// --- Vista de Búsqueda Global ("Lex Doctor style") ---
 function renderSearch() {
-  const q = state.searchQuery;
-  const resCli = state.clientes.filter(c => c.nombre.toLowerCase().includes(q) || (c.doc||'').includes(q));
-  const resExp = state.expedientes.filter(e => e.caratula.toLowerCase().includes(q) || (e.numero||'').toLowerCase().includes(q) || (e.contraparteNombre||'').toLowerCase().includes(q));
-  
+  const rawQ = (state.searchQuery || '').trim();
+  const qNorm = normStr(rawQ);
+
+  if (!qNorm) {
+    return `
+      <div class="page-head">
+        <div><h2>Búsqueda General</h2><p>Escribí cualquier término para buscar en toda la base del estudio.</p></div>
+      </div>
+      <div class="empty">Comenzá a escribir en el cuadro de búsqueda para buscar carátulas, clientes, números, documentos o providencias.</div>
+    `;
+  }
+
+  // Búsqueda en Clientes
+  const resCli = state.clientes.filter(c => {
+    return normStr(c.nombre).includes(qNorm) ||
+           normStr(c.doc).includes(qNorm) ||
+           normStr(c.telefono).includes(qNorm) ||
+           normStr(c.email).includes(qNorm) ||
+           normStr(c.notas).includes(qNorm);
+  });
+
+  // Búsqueda en Expedientes
+  const resExp = state.expedientes.filter(e => {
+    const cliNom = clienteNombre(e.clienteId);
+    return normStr(e.caratula).includes(qNorm) ||
+           normStr(e.numero).includes(qNorm) ||
+           normStr(e.fuero).includes(qNorm) ||
+           normStr(e.juzgado).includes(qNorm) ||
+           normStr(e.contraparteNombre).includes(qNorm) ||
+           normStr(e.contraparteAbogado).includes(qNorm) ||
+           normStr(e.notas).includes(qNorm) ||
+           normStr(cliNom).includes(qNorm);
+  });
+
+  // Búsqueda en Movimientos y Actuaciones
+  const resMov = state.eventos.filter(ev => {
+    const car = expedienteCaratula(ev.expedienteId);
+    return normStr(ev.descripcion).includes(qNorm) || normStr(car).includes(qNorm);
+  });
+
+  // Búsqueda en Vencimientos
+  const resVenc = state.vencimientos.filter(v => {
+    const car = expedienteCaratula(v.expedienteId);
+    return normStr(v.tipo).includes(qNorm) || normStr(v.notas).includes(qNorm) || normStr(car).includes(qNorm);
+  });
+
+  const total = resExp.length + resCli.length + resMov.length + resVenc.length;
+
   return `
-    <div class="page-head"><div><h2>Resultados para "${q}"</h2></div><button class="btn secondary" onclick="setView('panel')">Cerrar búsqueda</button></div>
+    <div class="page-head">
+      <div>
+        <h2>Resultados para "${escapeHtml(rawQ)}"</h2>
+        <p>Se encontraron ${total} coincidencia(s) en causas, clientes y actuaciones.</p>
+      </div>
+      <button class="btn secondary" onclick="clearSearch()">Cerrar búsqueda (Esc)</button>
+    </div>
     
+    <!-- Expedientes -->
     <div class="block">
-      <div class="block-head">Clientes encontrados (${resCli.length})</div>
-      ${resCli.length===0 ? '<div class="empty">No hay clientes con ese criterio.</div>' : `
-      <table><tbody>
-        ${resCli.map(c=>`<tr class="row-click" onclick="openModal('cliente', ${escAttr(c)})"><td><strong>${c.nombre}</strong></td><td>${c.doc||''}</td></tr>`).join('')}
-      </tbody></table>`}
+      <div class="block-head">Expedientes y Causas (${resExp.length})</div>
+      ${resExp.length===0 ? '<div class="empty">No hay expedientes con ese criterio.</div>' : `
+      <table>
+        <thead><tr><th>Carátula y N°</th><th>Fuero / Juzgado</th><th>Cliente</th><th>Estado</th></tr></thead>
+        <tbody>
+        ${resExp.map(e=>`
+          <tr class="row-click" onclick="viewExpediente('${e.id}')">
+            <td>
+              <strong>${highlightMatch(e.caratula, rawQ)}</strong><br>
+              <span class="muted">${highlightMatch(e.numero||'S/N', rawQ)} ${e.contraparteNombre ? '· Contraparte: ' + highlightMatch(e.contraparteNombre, rawQ) : ''}</span>
+            </td>
+            <td>${highlightMatch(e.fuero, rawQ)}<br><span class="muted">${highlightMatch(e.juzgado||'—', rawQ)}</span></td>
+            <td>${highlightMatch(clienteNombre(e.clienteId), rawQ)}</td>
+            <td><span class="tag ${e.estado}">${e.estado==='activo'?'Activo':'Archivado'}</span></td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>`}
     </div>
 
+    <!-- Clientes -->
     <div class="block">
-      <div class="block-head">Expedientes y Contrapartes (${resExp.length})</div>
-      ${resExp.length===0 ? '<div class="empty">No hay expedientes con ese criterio.</div>' : `
-      <table><tbody>
-        ${resExp.map(e=>`<tr class="row-click" onclick="viewExpediente('${e.id}')"><td><strong>${e.caratula}</strong><br><span class="muted">${e.numero||''}</span></td><td><span class="tag programado">${e.fuero}</span></td></tr>`).join('')}
-      </tbody></table>`}
+      <div class="block-head">Clientes (${resCli.length})</div>
+      ${resCli.length===0 ? '<div class="empty">No hay clientes con ese criterio.</div>' : `
+      <table>
+        <thead><tr><th>Nombre</th><th>DNI / CUIT</th><th>Contacto</th><th>Notas</th></tr></thead>
+        <tbody>
+        ${resCli.map(c=>`
+          <tr class="row-click" onclick="openModal('cliente', ${escAttr(c)})">
+            <td><strong>${highlightMatch(c.nombre, rawQ)}</strong></td>
+            <td>${highlightMatch(c.doc||'—', rawQ)}</td>
+            <td>${highlightMatch(c.telefono||'', rawQ)} ${c.email ? '<br><span class="muted">' + highlightMatch(c.email, rawQ) + '</span>' : ''}</td>
+            <td class="muted">${highlightMatch(c.notas||'—', rawQ)}</td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>`}
     </div>
+
+    <!-- Movimientos / Actuaciones -->
+    <div class="block">
+      <div class="block-head">Actuaciones y Movimientos (${resMov.length})</div>
+      ${resMov.length===0 ? '<div class="empty">No hay movimientos que coincidan.</div>' : `
+      <table>
+        <thead><tr><th style="width:100px">Fecha</th><th>Expediente</th><th>Descripción</th></tr></thead>
+        <tbody>
+        ${resMov.map(ev=>`
+          <tr class="row-click" onclick="viewExpediente('${ev.expedienteId}')">
+            <td>${fmtFecha(ev.fecha)}</td>
+            <td><strong>${highlightMatch(expedienteCaratula(ev.expedienteId), rawQ)}</strong></td>
+            <td>${highlightMatch(ev.descripcion, rawQ)}</td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>`}
+    </div>
+
+    <!-- Vencimientos -->
+    ${resVenc.length > 0 ? `
+    <div class="block">
+      <div class="block-head">Vencimientos Asociados (${resVenc.length})</div>
+      <table>
+        <thead><tr><th>Estado</th><th>Fecha</th><th>Trámite</th><th>Expediente</th></tr></thead>
+        <tbody>
+        ${resVenc.map(v=>{
+          const est = estadoVencimiento(v);
+          return `
+          <tr class="row-click" onclick="viewExpediente('${v.expedienteId}')">
+            <td><span class="tag ${est}">${estadoLabel[est]}</span></td>
+            <td>${fmtFecha(v.fecha)}</td>
+            <td><strong>${highlightMatch(v.tipo, rawQ)}</strong> ${v.notas ? `<br><span class="muted">${highlightMatch(v.notas, rawQ)}</span>` : ''}</td>
+            <td>${highlightMatch(expedienteCaratula(v.expedienteId), rawQ)}</td>
+          </tr>
+          `;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>` : ''}
   `;
 }
 
+// --- Vista Panel ---
 function renderPanel(pend){
   const vencidos = pend.filter(v=>estadoVencimiento(v)==='vencido').length;
   const hoy = pend.filter(v=>estadoVencimiento(v)==='hoy').length;
   const proximos = pend.filter(v=>estadoVencimiento(v)==='proximo').length;
   const proximaLista = pend.slice().sort((a,b)=>a.fecha.localeCompare(b.fecha)).slice(0,6);
+
+  const totalGastosEstudioGlobal = state.gastos.filter(g => g.pagadoPor === 'estudio' && !g.reintegrado).reduce((acc, g) => acc + Number(g.importe || 0), 0);
+  const totalHonorariosPendientesGlobal = state.honorarios.reduce((acc, h) => acc + (Number(h.monto || 0) - Number(h.pagado || 0)), 0);
   
   return `
     <div class="page-head">
-      <div><h2>Panel</h2><p>Estado general del estudio, hoy ${fmtFecha(todayStr())}.</p></div>
+      <div><h2>Panel de Control</h2><p>Estado general del estudio hoy ${fmtFecha(todayStr())}.</p></div>
       <button class="btn wa" onclick="enviarWhatsAppResumenDiario()">📱 Compartir Resumen Diario</button>
     </div>
     <div class="stats">
@@ -573,6 +1285,8 @@ function renderPanel(pend){
       <div class="stat alert"><div class="n">${vencidos}</div><div class="l">Vencidos</div></div>
       <div class="stat warn" style="background:#fdfcf9; border-color:#d4a953;"><div class="n" style="color:#805a13">${hoy}</div><div class="l">Vencen HOY (Gracia)</div></div>
       <div class="stat warn"><div class="n">${proximos}</div><div class="l">Próximos (5 días)</div></div>
+      <div class="stat" style="background:#FAF8F3;"><div class="n" style="font-size:22px; color:var(--burgundy);">${formatDinero(totalGastosEstudioGlobal)}</div><div class="l">Gastos a reintegrar</div></div>
+      <div class="stat" style="background:#FAF8F3;"><div class="n" style="font-size:22px; color:var(--green);">${formatDinero(totalHonorariosPendientesGlobal)}</div><div class="l">Honorarios por cobrar</div></div>
     </div>
     <div class="block">
       <div class="block-head">Próximos vencimientos <button class="link-btn" onclick="setView('agenda')">Ver agenda completa</button></div>
@@ -583,7 +1297,7 @@ function renderPanel(pend){
           return `<tr class="row-click" onclick="viewExpediente('${v.expedienteId}')">
             <td style="width:140px"><span class="tag ${est}">${estadoLabel[est]}</span></td>
             <td style="width:100px">${fmtFecha(v.fecha)}</td>
-            <td>${v.tipo}</td>
+            <td><strong>${v.tipo}</strong></td>
             <td class="muted">${expedienteCaratula(v.expedienteId)}</td>
           </tr>`;
         }).join('')}
@@ -592,21 +1306,67 @@ function renderPanel(pend){
   `;
 }
 
+// --- Vista Expedientes ---
+function setExpFiltroEstado(estado) {
+  state.expedientesFiltroEstado = estado;
+  render();
+}
+
+function setExpFiltroTexto(txt) {
+  state.expedientesFiltroTexto = txt;
+  render();
+}
+
 function renderExpedientes(){
+  const fEstado = state.expedientesFiltroEstado || 'activos';
+  const fTexto = normStr(state.expedientesFiltroTexto || '');
+
+  const totalActivos = state.expedientes.filter(e => e.estado === 'activo').length;
+  const totalArchivados = state.expedientes.filter(e => e.estado === 'archivado').length;
+
+  let filtrados = state.expedientes.slice();
+  if (fEstado === 'activos') {
+    filtrados = filtrados.filter(e => e.estado === 'activo');
+  } else if (fEstado === 'archivados') {
+    filtrados = filtrados.filter(e => e.estado === 'archivado');
+  }
+
+  if (fTexto) {
+    filtrados = filtrados.filter(e => {
+      const cliNom = clienteNombre(e.clienteId);
+      return normStr(e.caratula).includes(fTexto) ||
+             normStr(e.numero).includes(fTexto) ||
+             normStr(e.fuero).includes(fTexto) ||
+             normStr(e.juzgado).includes(fTexto) ||
+             normStr(cliNom).includes(fTexto);
+    });
+  }
+
   return `
     <div class="page-head">
       <div><h2>Expedientes</h2><p>Causas judiciales y extrajudiciales del estudio.</p></div>
       <button class="btn" onclick="openModal('expediente', null)">+ Nuevo expediente</button>
     </div>
+
+    <div class="filter-tabs">
+      <button class="filter-tab ${fEstado==='activos'?'active':''}" onclick="setExpFiltroEstado('activos')">Activos (${totalActivos})</button>
+      <button class="filter-tab ${fEstado==='todos'?'active':''}" onclick="setExpFiltroEstado('todos')">Todos (${state.expedientes.length})</button>
+      <button class="filter-tab ${fEstado==='archivados'?'active':''}" onclick="setExpFiltroEstado('archivados')">Archivados (${totalArchivados})</button>
+      <div style="margin-left:auto; display:flex; align-items:center; gap:6px;">
+        <input type="text" placeholder="Filtrar por nombre, juzgado..." value="${escapeHtml(state.expedientesFiltroTexto||'')}" oninput="setExpFiltroTexto(this.value)" style="padding:6px 10px; border:1px solid var(--line); border-radius:3px; font-size:12.5px;">
+        ${state.expedientesFiltroTexto ? `<button class="btn secondary small" onclick="setExpFiltroTexto('')">Limpiar</button>` : ''}
+      </div>
+    </div>
+
     <div class="block">
-      ${state.expedientes.length===0 ? `<div class="empty">Todavía no cargaste expedientes.</div>` : `
+      ${filtrados.length===0 ? `<div class="empty">No se encontraron expedientes con los filtros aplicados.</div>` : `
       <table>
         <thead><tr><th>Carátula</th><th>Fuero / Juzgado</th><th>Cliente</th><th>Último Movimiento</th><th>Estado</th><th style="text-align:right">Acciones</th></tr></thead>
         <tbody>
-        ${state.expedientes.slice().sort((a,b)=>a.estado.localeCompare(b.estado)).map(e=>`
+        ${filtrados.sort((a,b)=>a.caratula.localeCompare(b.caratula)).map(e=>`
           <tr class="row-click" onclick="viewExpediente('${e.id}')">
-            <td><strong>${e.caratula}</strong><br><span class="muted">${e.numero||''}</span></td>
-            <td>${e.fuero}<br><span class="muted">${e.juzgado||''}</span></td>
+            <td><strong>${e.caratula}</strong><br><span class="muted">${e.numero||'S/N'}</span></td>
+            <td>${e.fuero}<br><span class="muted">${e.juzgado||'—'}</span></td>
             <td>${clienteNombre(e.clienteId)}</td>
             <td>${getSemaforoInactividad(e.id)}</td>
             <td><span class="tag ${e.estado}">${e.estado==='activo'?'Activo':'Archivado'}</span></td>
@@ -621,9 +1381,10 @@ function renderExpedientes(){
   `;
 }
 
+// --- Detalle de Expediente ---
 function renderExpedienteDetail(){
   const e = state.expedientes.find(e=>e.id===state.selectedExpedienteId);
-  if(!e) return `<button class="btn secondary" onclick="setView('expedientes')">← Volver</button>`;
+  if(!e) return `<button class="btn secondary" onclick="setView('expedientes')">← Volver a expedientes</button>`;
   
   const eventos = state.eventos.filter(ev=>ev.expedienteId===e.id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
   const docs = state.documentos.filter(d=>d.expedienteId===e.id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
@@ -631,8 +1392,8 @@ function renderExpedienteDetail(){
   const gastos = state.gastos.filter(g=>g.expedienteId===e.id).sort((a,b)=>b.fecha.localeCompare(a.fecha));
   const hons = state.honorarios.filter(h=>h.expedienteId===e.id).sort((a,b)=>a.fechaVencimiento.localeCompare(b.fechaVencimiento));
   
-  const totalGastosEstudio = gastos.filter(g=>g.pagadoPor==='estudio' && !g.reintegrado).reduce((acc,g)=>acc+g.importe,0);
-  const totalHonorariosPendientes = hons.reduce((acc,h)=>acc+(h.monto - h.pagado),0);
+  const totalGastosEstudio = gastos.filter(g=>g.pagadoPor==='estudio' && !g.reintegrado).reduce((acc,g)=>acc+Number(g.importe||0),0);
+  const totalHonorariosPendientes = hons.reduce((acc,h)=>acc+(Number(h.monto||0) - Number(h.pagado||0)),0);
 
   return `
     <button class="link-btn" style="margin-bottom:14px" onclick="setView('expedientes')">← Volver a expedientes</button>
@@ -641,9 +1402,13 @@ function renderExpedienteDetail(){
         <h2>${e.caratula} <span class="tag ${e.estado}" style="vertical-align:middle">${e.estado==='activo'?'ACTIVO':'ARCHIVADO'}</span></h2>
         <p>${e.fuero||''} ${e.juzgado?'· '+e.juzgado:''} ${e.numero?'· N° '+e.numero:''}</p>
       </div>
-      <div style="display:flex; gap:10px;">
-        <button class="btn secondary" onclick="generarReporteCliente('${e.id}')">📄 Copiar Reporte p/ Cliente</button>
-        ${e.estado === 'activo' ? `<button class="btn secondary" onclick="archivarExpediente('${e.id}')">📁 Archivar</button>` : ''}
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <button class="btn" style="background:var(--burgundy); border-color:var(--burgundy);" onclick="openModal('redactar_escrito', {expedienteId:'${e.id}'})">📝 Redactar Escrito con Plantilla</button>
+        <button class="btn secondary" onclick="openModal('estado_cuenta', {expedienteId:'${e.id}'})">💰 Estado de Cuenta / Cobro</button>
+        <button class="btn secondary" onclick="generarReporteCliente('${e.id}')">📄 Reporte p/ Cliente</button>
+        ${e.linkPortal ? `<a href="${e.linkPortal}" target="_blank" class="btn secondary">🌐 Portal Judicial</a>` : ''}
+        ${e.rutaCarpeta ? `<button class="btn secondary" onclick="copiarAlPortapapeles('${e.rutaCarpeta.replace(/\\/g,'\\\\')}', 'Ruta de la carpeta copiada')">📁 Ruta Carpeta</button>` : ''}
+        ${e.estado === 'activo' ? `<button class="btn secondary" onclick="archivarExpediente('${e.id}')">📦 Archivar</button>` : ''}
         <button class="btn secondary" onclick="openModal('expediente', ${escAttr(e)})">Editar datos</button>
       </div>
     </div>
@@ -653,9 +1418,9 @@ function renderExpedienteDetail(){
         <h4>Cliente del estudio</h4>
         <div class="ficha-dato" style="display:flex; justify-content:space-between; align-items:flex-start;">
           <strong>${clienteNombre(e.clienteId)}</strong>
-          ${e.estado==='activo' ? `<button class="btn small wa" onclick="enviarWhatsApp('${e.id}')">📱 Avisar Novedad por WA</button>` : ''}
+          ${e.estado==='activo' ? `<button class="btn small wa" onclick="enviarWhatsApp('${e.id}')">📱 Avisar Novedad</button>` : ''}
         </div>
-        <div class="ficha-dato" style="margin-top:8px;">Semáforo: ${getSemaforoInactividad(e.id)}</div>
+        <div class="ficha-dato" style="margin-top:8px;">Semáforo de Actividad: ${getSemaforoInactividad(e.id)}</div>
       </div>
       <div class="ficha-col">
         <h4>Contraparte</h4>
@@ -666,36 +1431,41 @@ function renderExpedienteDetail(){
 
     <!-- Módulo Honorarios -->
     <div class="block">
-      <div class="block-head">Acuerdos y Honorarios <button class="btn small" onclick="openModal('honorario', {expedienteId:'${e.id}', fechaVencimiento: todayStr()})">+ Registrar Honorario</button></div>
+      <div class="block-head">
+        Acuerdos y Honorarios 
+        <button class="btn small" onclick="openModal('honorario', {expedienteId:'${e.id}', fechaVencimiento: todayStr()})">+ Registrar Honorario</button>
+      </div>
       ${hons.length===0 ? `<div class="empty">No hay honorarios pactados.</div>` : `
       <table>
-        <thead><tr><th>Concepto</th><th style="text-align:right">Total Pactado</th><th style="text-align:right">Cobrado</th><th style="text-align:right">Saldo</th><th></th></tr></thead>
+        <thead><tr><th>Concepto</th><th style="text-align:right">Total Pactado</th><th style="text-align:right">Cobrado</th><th style="text-align:right">Saldo</th><th style="text-align:right">Acciones</th></tr></thead>
         <tbody>
         ${hons.map(h=>{
-          const saldo = h.monto - h.pagado;
+          const saldo = Number(h.monto||0) - Number(h.pagado||0);
           return `<tr>
-            <td><strong>${h.concepto}</strong><span class="meta-text">Vto: ${fmtFecha(h.fechaVencimiento)} | ${h.cuotas} cuotas</span></td>
+            <td><strong>${h.concepto}</strong><span class="meta-text">Vto: ${fmtFecha(h.fechaVencimiento)} | ${h.cuotas} cuota(s)</span></td>
             <td style="text-align:right">${formatDinero(h.monto)}</td>
             <td style="text-align:right; color:var(--green)">${formatDinero(h.pagado)}</td>
             <td style="text-align:right; font-weight:bold; color:${saldo>0?'var(--burgundy)':'var(--ink-soft)'}">${formatDinero(saldo)}</td>
             <td style="text-align:right">
               <button class="icon-btn" onclick="openModal('honorario', ${escAttr(h)})">Editar</button>
+              <button class="icon-btn" onclick="deleteHonorario('${h.id}')">Borrar</button>
             </td>
           </tr>`;
         }).join('')}
         </tbody>
       </table>
-      <div style="padding:12px 18px; text-align:right; font-size:13px; border-top:1px solid var(--line);">
-        Total pendiente de cobro: <strong>${formatDinero(totalHonorariosPendientes)}</strong>
+      <div style="padding:12px 18px; text-align:right; font-size:13px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+        <button class="link-btn" onclick="openModal('estado_cuenta', {expedienteId:'${e.id}'})">👉 Ver resumen completo de cobro para cliente</button>
+        <div>Total pendiente de cobro: <strong>${formatDinero(totalHonorariosPendientes)}</strong></div>
       </div>`}
     </div>
 
     <!-- Módulo Gastos -->
     <div class="block">
-      <div class="block-head">Gastos (Caja Chica) <button class="btn small" onclick="openModal('gasto', {expedienteId:'${e.id}', fecha: todayStr()})">+ Registrar gasto</button></div>
+      <div class="block-head">Gastos (Caja Chica del Estudio) <button class="btn small" onclick="openModal('gasto', {expedienteId:'${e.id}', fecha: todayStr()})">+ Registrar gasto</button></div>
       ${gastos.length===0 ? `<div class="empty">No hay gastos registrados.</div>` : `
       <table>
-        <thead><tr><th style="width:100px">Fecha</th><th>Concepto</th><th>Importe</th><th>Estado</th></tr></thead>
+        <thead><tr><th style="width:100px">Fecha</th><th>Concepto</th><th>Importe</th><th>Estado</th><th style="text-align:right">Acciones</th></tr></thead>
         <tbody>
         ${gastos.map(g=>`<tr>
             <td>${fmtFecha(g.fecha)}</td>
@@ -703,7 +1473,11 @@ function renderExpedienteDetail(){
             <td><strong>${formatDinero(g.importe)}</strong></td>
             <td>
               ${g.pagadoPor==='estudio' ? (g.reintegrado ? `<span class="tag cumplido">Reintegrado</span>` : `<span class="tag vencido">Pendiente reintegro</span>`) : `<span class="tag programado">A cargo cliente</span>`}
-              <button class="icon-btn" style="float:right" onclick="openModal('gasto', ${escAttr(g)})">Editar</button>
+            </td>
+            <td style="text-align:right">
+              ${g.pagadoPor==='estudio' ? `<button class="icon-btn" onclick="toggleGastoReintegrado('${g.id}')" title="Alternar reintegro">${g.reintegrado?'Desmarcar':'Reintegrar'}</button>` : ''}
+              <button class="icon-btn" onclick="openModal('gasto', ${escAttr(g)})">Editar</button>
+              <button class="icon-btn" onclick="deleteGasto('${g.id}')">Borrar</button>
             </td>
           </tr>`).join('')}
         </tbody>
@@ -715,7 +1489,7 @@ function renderExpedienteDetail(){
 
     <!-- Eventos -->
     <div class="block">
-      <div class="block-head">Eventos del expediente <button class="btn small" onclick="openModal('evento', {expedienteId:'${e.id}', fecha: todayStr()})">+ Nuevo evento</button></div>
+      <div class="block-head">Eventos y Actuaciones del expediente <button class="btn small" onclick="openModal('evento', {expedienteId:'${e.id}', fecha: todayStr()})">+ Nuevo evento</button></div>
       ${eventos.length===0 ? `<div class="empty">Todavía no hay eventos cargados para este expediente.</div>` : `
       <div class="timeline">
         ${eventos.map(ev=>{
@@ -727,7 +1501,7 @@ function renderExpedienteDetail(){
             <div class="timeline-desc">
               ${ev.descripcion}
               ${doc?`<br><span class="tag programado" style="margin-top:4px">📎 Documento: ${doc.nombre}</span>`:''}
-              ${tram?`<br><span class="tag proximo" style="margin-top:4px">⏱ Trámite: ${tram.nombre}</span>`:''}
+              ${tram?`<br><span class="tag proximo" style="margin-top:4px">⏱ Trámite: ${tram.nombre} (${tram.dias}d ${tram.modo})</span>`:''}
               <span class="meta-text">Por ${ev.creadoPor||'Sistema'} el ${fmtFecha(ev.creadoEn||ev.fecha)}</span>
             </div>
             <div class="timeline-actions">
@@ -738,57 +1512,687 @@ function renderExpedienteDetail(){
       </div>`}
     </div>
 
-    <!-- Documentos y Vencimientos similares, reducidos visualmente por espacio pero 100% funcionales -->
-    <div class="formato-grid" style="grid-template-columns: 1fr 1fr; gap:16px;">
+    <!-- Documentos y Vencimientos -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
       <div class="block" style="margin:0;">
-        <div class="block-head">Documentos <button class="btn small secondary" onclick="openModal('documento', {expedienteId:'${e.id}', fecha: todayStr()})">+</button></div>
-        ${docs.length===0 ? `<div class="empty">Sin docs.</div>` : `<table><tbody>${docs.map(d=>`<tr><td><strong>${d.nombre}</strong><span class="meta-text">${d.tipo}</span></td><td style="text-align:right"><button class="icon-btn" onclick="openModal('documento', ${escAttr(d)})">Editar</button></td></tr>`).join('')}</tbody></table>`}
+        <div class="block-head">
+          Documentos
+          <div style="display:flex; gap:6px;">
+            <button class="btn small secondary" onclick="openModal('redactar_escrito', {expedienteId:'${e.id}'})" title="Redactar a partir de una plantilla">📝 Redactar</button>
+            <button class="btn small secondary" onclick="openModal('documento', {expedienteId:'${e.id}', fecha: todayStr()})">+ Agregar</button>
+          </div>
+        </div>
+        ${docs.length===0 ? `<div class="empty">Sin documentos asociados a esta causa.</div>` : `
+        <table>
+          <tbody>
+          ${docs.map(d=>`
+            <tr>
+              <td>
+                <strong>${escapeHtml(d.nombre)}</strong>
+                <span class="meta-text">${escapeHtml(d.tipo)} · ${fmtFecha(d.fecha)}</span>
+                ${d.rutaArchivo ? `<div style="font-family:monospace; font-size:11px; color:var(--navy); margin-top:3px; word-break:break-all;">📁 ${escapeHtml(d.rutaArchivo)}</div>` : ''}
+              </td>
+              <td style="text-align:right; white-space:nowrap;">
+                ${d.rutaArchivo ? `<button class="icon-btn" onclick="copiarAlPortapapeles('${escapeHtml(d.rutaArchivo).replace(/\\/g,'\\\\')}', 'Ruta copiada al portapapeles')" title="Copiar ruta para buscar en el Explorador de Windows">📋 Ruta</button>` : ''}
+                <button class="icon-btn" onclick="openModal('documento', ${escAttr(d)})">Editar</button>
+                <button class="icon-btn" onclick="deleteGeneric('documentos', '${d.id}')">Borrar</button>
+              </td>
+            </tr>
+          `).join('')}
+          </tbody>
+        </table>`}
       </div>
       
       <div class="block" style="margin:0;">
         <div class="block-head">Vencimientos <button class="btn small secondary" onclick="openModal('vencimiento', {expedienteId:'${e.id}', fecha: todayStr()})">+</button></div>
-        ${vencs.length===0 ? `<div class="empty">Sin vencimientos.</div>` : `<table><tbody>${vencs.map(v=>{
+        ${vencs.length===0 ? `<div class="empty">Sin vencimientos registrados.</div>` : `<table><tbody>${vencs.map(v=>{
           const est = estadoVencimiento(v);
-          return `<tr><td><span class="tag ${est}">${estadoLabel[est]}</span><br><strong>${v.tipo}</strong><span class="meta-text">${fmtFecha(v.fecha)}</span></td><td style="text-align:right"><button class="icon-btn" onclick="toggleCumplido('${v.id}')">${v.cumplido?'Reabrir':'Cumplir'}</button><button class="icon-btn" onclick="openModal('vencimiento', ${escAttr(v)})">Ed.</button></td></tr>`;
+          return `<tr><td><span class="tag ${est}">${estadoLabel[est]}</span><br><strong>${v.tipo}</strong><span class="meta-text">${fmtFecha(v.fecha)}</span></td><td style="text-align:right"><button class="icon-btn" onclick="toggleCumplido('${v.id}')">${v.cumplido?'Reabrir':'Cumplir'}</button><button class="icon-btn" onclick="openModal('vencimiento', ${escAttr(v)})">Editar</button></td></tr>`;
         }).join('')}</tbody></table>`}
       </div>
     </div>
   `;
 }
 
-// (Resto de renders Agenda, Clientes, Formatos, Plazos sin cambios estructurales, se asumen intactos).
-function renderAgenda(pend){ return `<div class="page-head"><div><h2>Agenda</h2></div><button class="btn" onclick="openModal('vencimiento', null)">+ Nuevo</button></div><div class="block"><table><thead><tr><th style="width:140px">Estado</th><th style="width:100px">Fecha</th><th>Trámite</th><th>Expediente</th><th></th></tr></thead><tbody>${pend.slice().sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(v=>{ const est = estadoVencimiento(v); return `<tr class="row-click" onclick="openModal('vencimiento', ${escAttr(v)})"><td><span class="tag ${est}">${estadoLabel[est]}</span></td><td>${fmtFecha(v.fecha)}</td><td>${v.tipo}</td><td class="muted">${expedienteCaratula(v.expedienteId)}</td><td onclick="event.stopPropagation()"><button class="icon-btn" onclick="toggleCumplido('${v.id}')">Cumplir</button></td></tr>`; }).join('')}</tbody></table></div>`; }
-function renderConfig() { return `<div class="page-head"><h2>Configuración del Sistema</h2></div><div class="block"><div class="block-head">Parámetros Operativos</div><div style="padding:20px;"><form id="mform_config" style="max-width:500px;"><div class="field"><label>Usuario Activo (Para trazabilidad de eventos)</label><select name="usuarioActual"><option value="Ignacio" ${state.config.usuarioActual==='Ignacio'?'selected':''}>Ignacio</option><option value="Usuario 2" ${state.config.usuarioActual==='Usuario 2'?'selected':''}>Usuario 2</option><option value="Usuario 3" ${state.config.usuarioActual==='Usuario 3'?'selected':''}>Usuario 3</option></select></div><div class="field"><label>Ruta Raíz de la Carpeta Compartida</label><input name="rutaRaiz" value="${state.config.rutaRaiz || ''}" placeholder="\\\\SERVIDOR\\Estudio\\"></div><button type="submit" class="btn">Guardar</button></form></div></div>`; }
-function renderClientes(){ return `<div class="page-head"><h2>Clientes</h2><button class="btn" onclick="openModal('cliente', null)">+ Nuevo</button></div><div class="block"><table><thead><tr><th>Nombre</th><th>DNI/CUIT</th><th>Teléfono</th><th style="text-align:right">Acc.</th></tr></thead><tbody>${state.clientes.map(c=>`<tr class="row-click" onclick="openModal('cliente', ${escAttr(c)})"><td><strong>${c.nombre}</strong></td><td>${c.doc||'—'}</td><td>${c.telefono||''}</td><td onclick="event.stopPropagation()" style="text-align:right"><button class="icon-btn" onclick="deleteCliente('${c.id}')">Borrar</button></td></tr>`).join('')}</tbody></table></div>`; }
-function renderFormatos(){ return `<div class="page-head"><h2>Formatos</h2><button class="btn" onclick="openModal('formato', null)">+ Nuevo</button></div><div class="block"><table><thead><tr><th>Nombre del Formato</th><th>Categoría</th><th style="text-align:right">Acc.</th></tr></thead><tbody>${state.formatos.map(f=>`<tr><td><strong>${f.nombre}</strong></td><td><span class="tag programado">${f.categoria}</span></td><td style="text-align:right"><button class="icon-btn" onclick="openModal('formato', ${escAttr(f)})">Editar</button><button class="icon-btn" onclick="deleteGeneric('formatos', '${f.id}')">Borrar</button></td></tr>`).join('')}</tbody></table></div>`; }
-function renderTramites(){ return `<div class="page-head"><h2>Plazos Configurados</h2><button class="btn" onclick="openModal('tramite', null)">+ Nuevo</button></div><div class="block"><table><thead><tr><th>Trámite</th><th>Días</th><th>Cómputo</th><th style="text-align:right">Acc.</th></tr></thead><tbody>${state.tiposTramite.map(t=>`<tr><td>${t.nombre}</td><td>${t.dias}</td><td>${t.modo}</td><td style="text-align:right"><button class="icon-btn" onclick="openModal('tramite', ${escAttr(t)})">Editar</button></td></tr>`).join('')}</tbody></table></div>`; }
+// --- Vista Agenda ---
+function renderAgenda(pend){ 
+  return `
+    <div class="page-head">
+      <div><h2>Agenda de Vencimientos</h2><p>Control de plazos y términos procesales.</p></div>
+      <button class="btn" onclick="openModal('vencimiento', null)">+ Nuevo Vencimiento</button>
+    </div>
+    <div class="block">
+      ${pend.length === 0 ? `<div class="empty">No hay vencimientos pendientes en la agenda.</div>` : `
+      <table>
+        <thead><tr><th style="width:140px">Estado</th><th style="width:100px">Fecha</th><th>Trámite / Detalle</th><th>Expediente</th><th style="text-align:right">Acciones</th></tr></thead>
+        <tbody>
+        ${pend.slice().sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(v=>{ 
+          const est = estadoVencimiento(v); 
+          return `
+          <tr class="row-click" onclick="openModal('vencimiento', ${escAttr(v)})">
+            <td><span class="tag ${est}">${estadoLabel[est]}</span></td>
+            <td>${fmtFecha(v.fecha)}</td>
+            <td><strong>${v.tipo}</strong>${v.notas ? `<br><span class="muted">${v.notas}</span>` : ''}</td>
+            <td class="muted">${expedienteCaratula(v.expedienteId)}</td>
+            <td onclick="event.stopPropagation()" style="text-align:right">
+              <button class="btn small secondary" onclick="toggleCumplido('${v.id}')">Cumplir</button>
+            </td>
+          </tr>`; 
+        }).join('')}
+        </tbody>
+      </table>`}
+    </div>
+  `; 
+}
+
+// --- Vista Configuración ---
+function renderConfig() { 
+  return `
+    <div class="page-head">
+      <div><h2>Configuración del Estudio</h2><p>Parámetros profesionales, bancarios y resguardo de datos.</p></div>
+    </div>
+
+    <div class="block">
+      <div class="block-head">Datos del Profesional y Estudio (Para Redacción Automática de Escritos)</div>
+      <div style="padding:20px;">
+        <form id="mform_config" style="max-width:560px;">
+          <div class="field-row">
+            <div class="field">
+              <label>Nombre del Letrado</label>
+              <input name="abogadoNombre" value="${escapeHtml(state.config.abogadoNombre || '')}" placeholder="Dr. Juan Pérez">
+            </div>
+            <div class="field">
+              <label>Tomo y Folio / Matrícula</label>
+              <input name="abogadoMatricula" value="${escapeHtml(state.config.abogadoMatricula || '')}" placeholder="T° 120 F° 450 CPACF">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>CUIT Letrado</label>
+              <input name="abogadoCuit" value="${escapeHtml(state.config.abogadoCuit || '')}" placeholder="20-xxxxxxxx-x">
+            </div>
+            <div class="field">
+              <label>Domicilio Electrónico</label>
+              <input name="domicilioElectronico" value="${escapeHtml(state.config.domicilioElectronico || '')}" placeholder="20xxxxxxxx9">
+            </div>
+          </div>
+          <div class="field">
+            <label>Domicilio Procesal Constituido</label>
+            <input name="domicilioConstituido" value="${escapeHtml(state.config.domicilioConstituido || '')}" placeholder="Lavalle 1234, Piso 2, CABA">
+          </div>
+          
+          <hr style="border:0; border-top:1px solid var(--line); margin:18px 0;">
+          <h4 style="margin:0 0 12px 0; font-size:13px; text-transform:uppercase; color:var(--ink-soft);">Datos de Cobro para Clientes (WhatsApp y Liquidaciones)</h4>
+          <div class="field-row">
+            <div class="field">
+              <label>Banco</label>
+              <input name="banco" value="${escapeHtml(state.config.banco || '')}" placeholder="Banco Galicia / Santander">
+            </div>
+            <div class="field">
+              <label>Titular de la Cuenta</label>
+              <input name="titularCuenta" value="${escapeHtml(state.config.titularCuenta || '')}" placeholder="Juan Pérez">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Alias CBU</label>
+              <input name="alias" value="${escapeHtml(state.config.alias || '')}" placeholder="ESTUDIO.LEGAL">
+            </div>
+            <div class="field">
+              <label>CBU / CVU</label>
+              <input name="cbu" value="${escapeHtml(state.config.cbu || '')}" placeholder="0170099320000012345678">
+            </div>
+          </div>
+
+          <hr style="border:0; border-top:1px solid var(--line); margin:18px 0;">
+          <h4 style="margin:0 0 12px 0; font-size:13px; text-transform:uppercase; color:var(--ink-soft);">Parámetros del Sistema</h4>
+          <div class="field">
+            <label>Usuario Activo</label>
+            <select name="usuarioActual">
+              <option value="Ignacio" ${state.config.usuarioActual==='Ignacio'?'selected':''}>Ignacio</option>
+              <option value="Usuario 2" ${state.config.usuarioActual==='Usuario 2'?'selected':''}>Usuario 2</option>
+              <option value="Usuario 3" ${state.config.usuarioActual==='Usuario 3'?'selected':''}>Usuario 3</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Ruta Raíz de la Carpeta del Servidor</label>
+            <input name="rutaRaiz" value="${escapeHtml(state.config.rutaRaiz || '')}" placeholder="\\\\SERVIDOR\\Estudio\\">
+          </div>
+
+          <button type="submit" class="btn" style="margin-top:10px;">Guardar Configuración Completa</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head">Copia de Seguridad y Resguardo (Backup JSON)</div>
+      <div style="padding:20px;">
+        <p style="color:var(--ink-soft); margin-top:0;">Descargá una copia de seguridad en un archivo para proteger toda la información del estudio (causas, clientes, vencimientos, honorarios y plantillas).</p>
+        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:14px;">
+          <button class="btn" onclick="exportarBackupJSON()">⬇ Descargar Respaldo Completo (.json)</button>
+          <label class="btn secondary" style="cursor:pointer; margin:0;">
+            ⬆ Restaurar desde Archivo .json
+            <input type="file" accept=".json" style="display:none;" onchange="importarBackupJSON(this.files[0])">
+          </label>
+        </div>
+      </div>
+    </div>
+  `; 
+}
+
+// --- Vista Clientes ---
+function renderClientes(){ 
+  return `
+    <div class="page-head">
+      <div><h2>Clientes</h2><p>Padrón de representados y patrocinados.</p></div>
+      <button class="btn" onclick="openModal('cliente', null)">+ Nuevo Cliente</button>
+    </div>
+    <div class="block">
+      ${state.clientes.length === 0 ? `<div class="empty">No hay clientes cargados en el sistema.</div>` : `
+      <table>
+        <thead><tr><th>Nombre</th><th>DNI/CUIT</th><th>Teléfono</th><th>Email</th><th style="text-align:right">Acciones</th></tr></thead>
+        <tbody>
+        ${state.clientes.map(c=>`
+          <tr class="row-click" onclick="openModal('cliente', ${escAttr(c)})">
+            <td><strong>${c.nombre}</strong></td>
+            <td>${c.doc||'—'}</td>
+            <td>${c.telefono||'—'}</td>
+            <td>${c.email||'—'}</td>
+            <td onclick="event.stopPropagation()" style="text-align:right">
+              <button class="icon-btn" onclick="deleteCliente('${c.id}')">Borrar</button>
+            </td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>`}
+    </div>
+  `; 
+}
+
+// --- Vista Formatos / Modelos ---
+function renderFormatos(){ 
+  return `
+    <div class="page-head">
+      <div><h2>Plantillas y Modelos de Escritos</h2><p>Modelos dinámicos que completan automáticamente los datos de la causa.</p></div>
+      <button class="btn" onclick="openModal('formato', null)">+ Nueva Plantilla</button>
+    </div>
+
+    <div class="block" style="background:#FAF8F2; padding:16px 20px; margin-bottom:18px; border-left:4px solid var(--ochre);">
+      <div style="font-weight:700; margin-bottom:6px; font-size:14px; color:var(--ink);">📖 ¿Cómo y dónde se usan estas plantillas?</div>
+      <p style="margin:0 0 10px 0; color:var(--ink-soft); font-size:13px; line-height:1.5;">
+        Tenés <strong>dos formas sencillas</strong> de redactar escritos con estas plantillas:<br>
+        <strong>1. Desde acá mismo:</strong> Hacé clic en el botón <span style="background:var(--burgundy); color:#fff; padding:2px 6px; border-radius:2px; font-size:11px;">▶ Usar en una Causa</span> al lado de cualquier plantilla y elegí el expediente.<br>
+        <strong>2. Desde cualquier Expediente:</strong> Abrí la causa deseada y pulsá el botón <span style="background:var(--burgundy); color:#fff; padding:2px 6px; border-radius:2px; font-size:11px;">📝 Redactar Escrito con Plantilla</span> en la cabecera o en la sección de Documentos.
+      </p>
+      <div style="font-weight:600; margin-bottom:6px; font-size:12.5px;">Variables dinámicas que podés usar (hacé clic para copiar y pegar en tu plantilla):</div>
+      <div>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{caratula}}')">{{caratula}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{numero}}')">{{numero}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{fuero}}')">{{fuero}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{juzgado}}')">{{juzgado}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{cliente}}')">{{cliente}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{cliente_doc}}')">{{cliente_doc}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{contraparte}}')">{{contraparte}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{contraparte_abogado}}')">{{contraparte_abogado}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{abogado}}')">{{abogado}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{tomo_folio}}')">{{tomo_folio}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{domicilio_constituido}}')">{{domicilio_constituido}}</span>
+        <span class="badge-tag" onclick="insertarTagEnPlantilla('{{fecha}}')">{{fecha}}</span>
+      </div>
+    </div>
+
+    <div class="block">
+      ${state.formatos.length === 0 ? `<div class="empty">No hay plantillas creadas.</div>` : `
+      <table>
+        <thead><tr><th>Nombre de la Plantilla</th><th>Categoría</th><th style="text-align:right">Acciones</th></tr></thead>
+        <tbody>
+        ${state.formatos.map(f=>`
+          <tr>
+            <td><strong>${escapeHtml(f.nombre)}</strong></td>
+            <td><span class="tag programado">${escapeHtml(f.categoria)}</span></td>
+            <td style="text-align:right; white-space:nowrap;">
+              <button class="btn small" style="background:var(--burgundy); border-color:var(--burgundy); margin-right:4px;" onclick="usarPlantillaEnExpediente('${f.id}')">▶ Usar en una Causa</button>
+              <button class="icon-btn" onclick="openModal('formato', ${escAttr(f)})">Editar</button>
+              <button class="icon-btn" onclick="deleteGeneric('formatos', '${f.id}')">Borrar</button>
+            </td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>`}
+    </div>
+  `; 
+}
+
+// --- Vista Plazos / Trámites ---
+function renderTramites(){ 
+  return `
+    <div class="page-head">
+      <div><h2>Plazos y Trámites Procesales</h2><p>Cómputo automático de términos judiciales.</p></div>
+      <button class="btn" onclick="openModal('tramite', null)">+ Nuevo Trámite</button>
+    </div>
+    <div class="block">
+      <table>
+        <thead><tr><th>Trámite</th><th>Días de Plazo</th><th>Tipo de Cómputo</th><th style="text-align:right">Acciones</th></tr></thead>
+        <tbody>
+        ${state.tiposTramite.map(t=>`
+          <tr>
+            <td><strong>${t.nombre}</strong></td>
+            <td>${t.dias} días</td>
+            <td><span class="tag ${t.modo==='habiles'?'cumplido':'programado'}">${t.modo==='habiles'?'Días Hábiles Judiciales':'Días Corridos'}</span></td>
+            <td style="text-align:right">
+              <button class="icon-btn" onclick="openModal('tramite', ${escAttr(t)})">Editar</button>
+              <button class="icon-btn" onclick="deleteGeneric('tiposTramite', '${t.id}')">Borrar</button>
+            </td>
+          </tr>
+        `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `; 
+}
 
 // --- Modales ---
 function renderModal(){
   const {type, data} = state.modal;
   const modales = {
-    'cliente': `<form id="mform_cliente"><div class="field"><label>Nombre</label><input name="nombre" required value="${data?.nombre||''}"></div><div class="field-row"><div class="field"><label>DNI/CUIT</label><input name="doc" value="${data?.doc||''}"></div><div class="field"><label>Teléfono (solo números)</label><input name="telefono" value="${data?.telefono||''}"></div></div><div class="field"><label>Email</label><input name="email" value="${data?.email||''}"></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'expediente': `<form id="mform_expediente"><div class="field"><label>Carátula</label><input name="caratula" required value="${data?.caratula||''}"></div><div class="field-row"><div class="field"><label>Fuero</label><input name="fuero" value="${data?.fuero||''}"></div><div class="field"><label>N° Expte</label><input name="numero" value="${data?.numero||''}"></div></div><div class="field"><label>Cliente</label><select name="clienteId">${state.clientes.map(c=>`<option value="${c.id}" ${data?.clienteId===c.id?'selected':''}>${c.nombre}</option>`).join('')}</select></div><hr style="border:0; border-top:1px solid var(--line); margin:18px 0;"><h4 style="margin:0 0 10px 0; font-size:13px;">Contraparte</h4><div class="field-row"><div class="field"><label>Nombre Contraparte</label><input name="contraparteNombre" value="${data?.contraparteNombre||''}"></div><div class="field"><label>Abogado</label><input name="contraparteAbogado" value="${data?.contraparteAbogado||''}"></div></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'honorario': `<form id="mform_honorario"><input type="hidden" name="expedienteId" value="${data?.expedienteId||''}"><div class="field"><label>Concepto (Ej: Pacto 20%, Etapa 1)</label><input name="concepto" required value="${data?.concepto||''}"></div><div class="field-row"><div class="field"><label>Monto Total Pactado ($)</label><input name="monto" type="number" step="0.01" required value="${data?.monto||''}"></div><div class="field"><label>Monto Cobrado Hasta Ahora ($)</label><input name="pagado" type="number" step="0.01" required value="${data?.pagado||'0'}"></div></div><div class="field-row"><div class="field"><label>Fecha Vto.</label><input name="fechaVencimiento" type="date" required value="${data?.fechaVencimiento||''}"></div><div class="field"><label>Cant. Cuotas</label><input name="cuotas" type="number" value="${data?.cuotas||'1'}"></div></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'gasto': `<form id="mform_gasto"><input type="hidden" name="expedienteId" value="${data?.expedienteId||''}"><div class="field-row"><div class="field"><label>Fecha</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div><div class="field"><label>Importe ($)</label><input name="importe" type="number" step="0.01" required value="${data?.importe||''}"></div></div><div class="field"><label>Concepto (Bono, Tasa...)</label><input name="concepto" required value="${data?.concepto||''}"></div><div class="field-row"><div class="field"><label>Pagado por</label><select name="pagadoPor"><option value="estudio" ${data?.pagadoPor==='estudio'?'selected':''}>El Estudio</option><option value="cliente" ${data?.pagadoPor==='cliente'?'selected':''}>El Cliente</option></select></div><div class="field"><label style="margin-top:20px;"><input type="checkbox" name="reintegrado" ${data?.reintegrado?'checked':''}> Ya reintegrado al estudio</label></div></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'evento': `<form id="mform_evento"><input type="hidden" name="expedienteId" value="${data?.expedienteId||''}"><div class="field"><label>Fecha</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div><div class="field"><label>Descripción del Movimiento</label><textarea name="descripcion" required>${data?.descripcion||''}</textarea></div><div class="field"><label>Vincular Documento (Opcional)</label><select name="documentoId"><option value="">— Ninguno —</option>${state.documentos.filter(d=>d.expedienteId===data?.expedienteId).map(d=>`<option value="${d.id}" ${data?.documentoId===d.id?'selected':''}>${d.nombre}</option>`).join('')}</select></div><div class="field"><label>Generar Vencimiento por Trámite (Opcional)</label><select name="tipoTramiteId"><option value="">— Ninguno —</option>${state.tiposTramite.map(t=>`<option value="${t.id}" ${data?.tipoTramiteId===t.id?'selected':''}>${t.nombre} (${t.dias} días ${t.modo})</option>`).join('')}</select></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar Evento</button></div></form>`,
-    'vencimiento': `<form id="mform_vencimiento"><div class="field"><label>Expediente</label><select name="expedienteId" required>${state.expedientes.map(e=>`<option value="${e.id}" ${data?.expedienteId===e.id?'selected':''}>${e.caratula}</option>`).join('')}</select></div><div class="field-row"><div class="field"><label>Trámite / tipo</label><input name="tipo" required value="${data?.tipo||''}"></div><div class="field"><label>Fecha Vto</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'documento': `<form id="mform_documento"><input type="hidden" name="expedienteId" value="${data?.expedienteId||''}"><div class="field-row"><div class="field"><label>Nombre del documento</label><input name="nombre" required value="${data?.nombre||''}"></div><div class="field"><label>Tipo</label><select name="tipo">${['Escrito','Cédula','Oficio','Prueba','Otro'].map(t=>`<option value="${t}" ${data?.tipo===t?'selected':''}>${t}</option>`).join('')}</select></div></div><div class="field"><label>Fecha</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'tramite': `<form id="mform_tramite"><div class="field"><label>Nombre del Trámite</label><input name="nombre" required value="${data?.nombre||''}"></div><div class="field-row"><div class="field"><label>Días de plazo</label><input name="dias" type="number" min="1" required value="${data?.dias||''}"></div><div class="field"><label>Cómo se cuentan</label><select name="modo"><option value="corridos" ${data?.modo==='corridos'?'selected':''}>Corridos</option><option value="habiles" ${data?.modo==='habiles'?'selected':''}>Hábiles</option></select></div></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`,
-    'formato': `<form id="mform_formato"><div class="field"><label>Nombre de Plantilla</label><input name="nombre" required value="${data?.nombre||''}"></div><div class="field"><label>Categoría</label><select name="categoria">${['Escrito','Cédula','Oficio','Otro'].map(c=>`<option value="${c}" ${data?.categoria===c?'selected':''}>${c}</option>`).join('')}</select></div><div class="field"><label>Contenido</label><textarea name="contenido" required>${data?.contenido||''}</textarea></div><div class="modal-actions"><button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button><button type="submit" class="btn">Guardar</button></div></form>`
+    'cliente': `
+      <form id="mform_cliente">
+        <div class="field"><label>Nombre Completo / Razón Social</label><input name="nombre" required value="${escapeHtml(data?.nombre||'')}"></div>
+        <div class="field-row">
+          <div class="field"><label>DNI / CUIT</label><input name="doc" value="${escapeHtml(data?.doc||'')}"></div>
+          <div class="field"><label>Teléfono (con código de área, ej: 1144551122)</label><input name="telefono" value="${escapeHtml(data?.telefono||'')}"></div>
+        </div>
+        <div class="field"><label>Email</label><input name="email" type="email" value="${escapeHtml(data?.email||'')}"></div>
+        <div class="field"><label>Notas / Observaciones</label><textarea name="notas">${escapeHtml(data?.notas||'')}</textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar</button>
+        </div>
+      </form>`,
+    
+    'expediente': `
+      <form id="mform_expediente">
+        <div class="field"><label>Carátula de la Causa</label><input name="caratula" required value="${escapeHtml(data?.caratula||'')}"></div>
+        <div class="field-row">
+          <div class="field"><label>Fuero</label><input name="fuero" placeholder="Civil, Comercial, Laboral..." value="${escapeHtml(data?.fuero||'')}"></div>
+          <div class="field"><label>Juzgado / Secretaría</label><input name="juzgado" placeholder="Juzgado N° 42 - Sec. 84" value="${escapeHtml(data?.juzgado||'')}"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>N° Expediente</label><input name="numero" placeholder="Ej: CIV 12345/2025" value="${escapeHtml(data?.numero||'')}"></div>
+          <div class="field"><label>Cliente</label>
+            <select name="clienteId">
+              ${state.clientes.map(c=>`<option value="${c.id}" ${data?.clienteId===c.id?'selected':''}>${escapeHtml(c.nombre)}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Link al Portal Judicial (PJN / MEV / etc.)</label><input name="linkPortal" placeholder="https://..." value="${escapeHtml(data?.linkPortal||'')}"></div>
+        <div class="field"><label>Ruta de la Carpeta Digital (Servidor local o red)</label><input name="rutaCarpeta" placeholder="Dejar vacío para auto-generar" value="${escapeHtml(data?.rutaCarpeta||'')}"></div>
+        
+        <hr style="border:0; border-top:1px solid var(--line); margin:16px 0;">
+        <h4 style="margin:0 0 10px 0; font-size:13px; color:var(--ink-soft); text-transform:uppercase;">Contraparte</h4>
+        <div class="field-row">
+          <div class="field"><label>Nombre Contraparte</label><input name="contraparteNombre" value="${escapeHtml(data?.contraparteNombre||'')}"></div>
+          <div class="field"><label>Letrado Patrocinante</label><input name="contraparteAbogado" value="${escapeHtml(data?.contraparteAbogado||'')}"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Causa</button>
+        </div>
+      </form>`,
+    
+    'honorario': `
+      <form id="mform_honorario">
+        <input type="hidden" name="expedienteId" value="${escapeHtml(data?.expedienteId||'')}">
+        <div class="field"><label>Concepto (Ej: Pacto Cuota Litis 20%, Regulación etapa 1)</label><input name="concepto" required value="${escapeHtml(data?.concepto||'')}"></div>
+        <div class="field-row">
+          <div class="field"><label>Monto Total Pactado ($)</label><input name="monto" type="number" step="0.01" required value="${data?.monto||''}"></div>
+          <div class="field"><label>Monto Cobrado Hasta la Fecha ($)</label><input name="pagado" type="number" step="0.01" required value="${data?.pagado||'0'}"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Fecha Estimada de Vto. / Cobro</label><input name="fechaVencimiento" type="date" required value="${data?.fechaVencimiento||''}"></div>
+          <div class="field"><label>Cant. Cuotas</label><input name="cuotas" type="number" value="${data?.cuotas||'1'}"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Honorario</button>
+        </div>
+      </form>`,
+    
+    'gasto': `
+      <form id="mform_gasto">
+        <input type="hidden" name="expedienteId" value="${escapeHtml(data?.expedienteId||'')}">
+        <div class="field-row">
+          <div class="field"><label>Fecha</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div>
+          <div class="field"><label>Importe ($)</label><input name="importe" type="number" step="0.01" required value="${data?.importe||''}"></div>
+        </div>
+        <div class="field"><label>Concepto (Bono, Tasa de Justicia, Cédula ley...)</label><input name="concepto" required value="${escapeHtml(data?.concepto||'')}"></div>
+        <div class="field-row">
+          <div class="field"><label>Pagado por</label>
+            <select name="pagadoPor">
+              <option value="estudio" ${data?.pagadoPor==='estudio'?'selected':''}>El Estudio (Adelanto a reintegrar)</option>
+              <option value="cliente" ${data?.pagadoPor==='cliente'?'selected':''}>El Cliente Directamente</option>
+            </select>
+          </div>
+          <div class="field"><label style="margin-top:20px;"><input type="checkbox" name="reintegrado" ${data?.reintegrado?'checked':''}> Ya fue reintegrado por el cliente</label></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Gasto</button>
+        </div>
+      </form>`,
+    
+    'evento': `
+      <form id="mform_evento">
+        <input type="hidden" name="expedienteId" value="${escapeHtml(data?.expedienteId||'')}">
+        <div class="field"><label>Fecha de la Actuación</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div>
+        <div class="field"><label>Descripción del Movimiento / Proveído</label><textarea name="descripcion" required placeholder="Ej: Se libró cédula de traslado...">${escapeHtml(data?.descripcion||'')}</textarea></div>
+        <div class="field"><label>Vincular Documento (Opcional)</label>
+          <select name="documentoId">
+            <option value="">— Ninguno —</option>
+            ${state.documentos.filter(d=>d.expedienteId===data?.expedienteId).map(d=>`<option value="${d.id}" ${data?.documentoId===d.id?'selected':''}>${escapeHtml(d.nombre)}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label>Generar Vencimiento Automático por Trámite (Opcional)</label>
+          <select name="tipoTramiteId">
+            <option value="">— Ninguno —</option>
+            ${state.tiposTramite.map(t=>`<option value="${t.id}" ${data?.tipoTramiteId===t.id?'selected':''}>${escapeHtml(t.nombre)} (${t.dias} días ${t.modo})</option>`).join('')}
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Evento</button>
+        </div>
+      </form>`,
+    
+    'vencimiento': (() => {
+      const expId = data?.expedienteId || (state.view === 'expediente-detail' ? state.selectedExpedienteId : null);
+      const expedienteHtml = expId ? `
+        <div class="field">
+          <label>Expediente</label>
+          <div style="padding: 9px 12px; background: #EFE9DC; border: 1px solid var(--line); border-radius: 2px; font-weight: 500; color: var(--ink);">
+            ${escapeHtml(expedienteCaratula(expId))}
+          </div>
+          <input type="hidden" name="expedienteId" value="${escapeHtml(expId)}">
+        </div>
+      ` : `
+        <div class="field"><label>Expediente</label>
+          <select name="expedienteId" required>
+            <option value="">— Seleccionar causa —</option>
+            ${state.expedientes.filter(e=>e.estado==='activo').map(e=>`<option value="${e.id}" ${data?.expedienteId===e.id?'selected':''}>${escapeHtml(e.caratula)}</option>`).join('')}
+          </select>
+        </div>
+      `;
+
+      return `
+      <form id="mform_vencimiento">
+        ${expedienteHtml}
+        <div class="field-row">
+          <div class="field"><label>Trámite / Motivo de Vencimiento</label><input name="tipo" required value="${escapeHtml(data?.tipo||'')}"></div>
+          <div class="field"><label>Fecha de Vencimiento</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div>
+        </div>
+        <div class="field"><label>Notas / Instrucciones</label><input name="notas" value="${escapeHtml(data?.notas||'')}"></div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Vencimiento</button>
+        </div>
+      </form>`;
+    })(),
+    
+    'documento': (() => {
+      const expId = data?.expedienteId || state.selectedExpedienteId;
+      const expDoc = state.expedientes.find(e => e.id === expId);
+      const rutaSugeridaDoc = expDoc?.rutaCarpeta ? `${expDoc.rutaCarpeta}\\` : '';
+
+      return `
+      <form id="mform_documento">
+        <input type="hidden" name="expedienteId" value="${escapeHtml(expId||'')}">
+        <div class="field-row">
+          <div class="field"><label>Nombre del documento</label><input name="nombre" required placeholder="Ej: Demanda_firmada.pdf" value="${escapeHtml(data?.nombre||'')}"></div>
+          <div class="field"><label>Tipo</label>
+            <select name="tipo">
+              ${['Escrito','Cédula','Oficio','Prueba','Demanda','Contestación','Acuerdo','Poder','Otro'].map(t=>`<option value="${t}" ${data?.tipo===t?'selected':''}>${t}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Fecha</label><input name="fecha" type="date" required value="${data?.fecha||todayStr()}"></div>
+          <div class="field"><label>Causa</label>
+            <div style="padding: 8px 10px; background: #EFE9DC; border: 1px solid var(--line); border-radius: 2px; font-weight: 500; color: var(--ink); font-size:12.5px;">
+              ${escapeHtml(expedienteCaratula(expId))}
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Ruta o Ubicación donde se guardó el archivo (PC o Servidor)</label>
+          <div style="display:flex; gap:6px;">
+            <input name="rutaArchivo" id="input_doc_rutaArchivo" placeholder="Ej: \\\\SERVIDOR\\Estudio\\rios\\daños\\demanda.pdf o C:\\Users\\..." value="${escapeHtml(data?.rutaArchivo || rutaSugeridaDoc)}">
+            <button type="button" class="btn secondary small" onclick="copiarAlPortapapeles(document.getElementById('input_doc_rutaArchivo').value, 'Ruta copiada')" title="Copiar ruta al portapapeles">📋 Copiar</button>
+          </div>
+          <span class="meta-text">💡 Guardá la ruta donde está archivado el archivo para copiarla rápidamente cuando lo necesites abrir o buscar en el Explorador de Windows.</span>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Documento</button>
+        </div>
+      </form>`;
+    })(),
+    
+    'tramite': `
+      <form id="mform_tramite">
+        <div class="field"><label>Nombre del Trámite</label><input name="nombre" required value="${escapeHtml(data?.nombre||'')}"></div>
+        <div class="field-row">
+          <div class="field"><label>Días de plazo</label><input name="dias" type="number" min="1" required value="${data?.dias||''}"></div>
+          <div class="field"><label>Cómputo</label>
+            <select name="modo">
+              <option value="habiles" ${data?.modo==='habiles'?'selected':''}>Hábiles Judiciales</option>
+              <option value="corridos" ${data?.modo==='corridos'?'selected':''}>Corridos</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Trámite</button>
+        </div>
+      </form>`,
+    
+    'formato': `
+      <form id="mform_formato">
+        <div class="field"><label>Nombre de la Plantilla</label><input name="nombre" required value="${escapeHtml(data?.nombre||'')}"></div>
+        <div class="field"><label>Categoría</label>
+          <select name="categoria">
+            ${['Escrito','Cédula','Oficio','Demanda','Contestación','Otro'].map(c=>`<option value="${c}" ${data?.categoria===c?'selected':''}>${c}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field"><label>Contenido Base (con variables {{caratula}}, {{juzgado}}, etc.)</label><textarea name="contenido" rows="8" required style="font-family:monospace; font-size:12.5px;">${escapeHtml(data?.contenido||'')}</textarea></div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn">Guardar Plantilla</button>
+        </div>
+      </form>`,
+
+    'seleccionar_causa_para_plantilla': (() => {
+      const f = state.formatos.find(x => x.id === data?.formatoId);
+      const activos = state.expedientes.filter(e => e.estado === 'activo');
+      return `
+        <div style="margin-bottom:16px;">
+          <p style="color:var(--ink-soft); margin-top:0;">Plantilla seleccionada: <strong>${escapeHtml(f ? f.nombre : '')}</strong></p>
+          <div class="field">
+            <label>Elegí la causa judicial donde querés redactar este escrito:</label>
+            <select id="select_causa_destino">
+              ${activos.map(e => `<option value="${e.id}">${escapeHtml(e.caratula)} (${escapeHtml(e.numero||'S/N')})</option>`).join('')}
+            </select>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cancelar</button>
+          <button type="button" class="btn" onclick="const eid=document.getElementById('select_causa_destino').value; openModal('redactar_escrito', {expedienteId: eid, formatoId: '${data?.formatoId}'});">Abrir Redactor de Escrito →</button>
+        </div>
+      `;
+    })(),
+
+    'redactar_escrito': (() => {
+      const exp = state.expedientes.find(e => e.id === data?.expedienteId);
+      if (!exp) return '<div class="empty">No se encontró el expediente.</div>';
+      const formatosDisponibles = state.formatos || [];
+      const formatoSeleccionadoId = data?.formatoId || formatosDisponibles[0]?.id || '';
+      const textoGenerado = generarEscritoDesdePlantilla(formatoSeleccionadoId, exp.id);
+
+      return `
+        <div style="margin-bottom:14px;">
+          <p style="color:var(--ink-soft); margin:0 0 10px 0; font-size:13px;">
+            Causa: <strong>${escapeHtml(exp.caratula)}</strong> (${escapeHtml(exp.numero||'S/N')})
+          </p>
+          <div class="field">
+            <label>Elegir Plantilla de Escrito</label>
+            <select onchange="cambiarPlantillaEscrito('${exp.id}', this.value)">
+              ${formatosDisponibles.map(f => `<option value="${f.id}" ${f.id===formatoSeleccionadoId?'selected':''}>${escapeHtml(f.nombre)} (${f.categoria})</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Texto del Escrito (Completado y Editable)</label>
+          <textarea id="texto-escrito-generado" style="font-family:'Courier New', monospace; font-size:13px; line-height:1.45; min-height:260px; width:100%; border:1px solid var(--line); padding:10px; border-radius:3px;">${escapeHtml(textoGenerado)}</textarea>
+        </div>
+
+        <div style="font-size:11.5px; color:var(--ink-soft); background:#F1EDE1; padding:8px 12px; border-radius:3px; margin-bottom:16px;">
+          💡 <em>Podés retocar o escribir texto adicional directamente en el cuadro de arriba antes de copiarlo.</em>
+        </div>
+
+        <div class="modal-actions" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cerrar</button>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn secondary" onclick="descargarEscrito('${escapeHtml(exp.caratula)}')">⬇ Descargar (.txt)</button>
+            <button type="button" class="btn secondary" onclick="guardarEscritoComoDocumento('${exp.id}', '${escapeHtml(exp.caratula)}')">📎 Guardar en Causa</button>
+            <button type="button" class="btn" onclick="copiarEscritoAlPortapapeles()">📋 Copiar Escrito</button>
+          </div>
+        </div>
+      `;
+    })(),
+
+    'estado_cuenta': (() => {
+      const exp = state.expedientes.find(e => e.id === data?.expedienteId);
+      if (!exp) return '<div class="empty">No se encontró el expediente.</div>';
+      const cli = state.clientes.find(c => c.id === exp.clienteId) || {};
+      const hons = state.honorarios.filter(h => h.expedienteId === exp.id);
+      const gastos = state.gastos.filter(g => g.expedienteId === exp.id && g.pagadoPor === 'estudio' && !g.reintegrado);
+
+      const saldoHonorarios = hons.reduce((acc, h) => acc + (Number(h.monto||0) - Number(h.pagado||0)), 0);
+      const totalGastosPendientes = gastos.reduce((acc, g) => acc + Number(g.importe||0), 0);
+      const totalGeneralAPagar = saldoHonorarios + totalGastosPendientes;
+
+      return `
+        <div style="margin-bottom:14px;">
+          <p style="color:var(--ink-soft); margin:0 0 6px 0; font-size:13px;">
+            Cliente: <strong>${escapeHtml(cli.nombre||'—')}</strong> ${cli.telefono ? '· Tel: ' + escapeHtml(cli.telefono) : ''}
+          </p>
+          <p style="color:var(--ink-soft); margin:0; font-size:12.5px;">
+            Causa: <em>${escapeHtml(exp.caratula)}</em>
+          </p>
+        </div>
+
+        <!-- Desglose Honorarios -->
+        <div style="background:#fff; border:1px solid var(--line); padding:12px; border-radius:3px; margin-bottom:12px;">
+          <h4 style="margin:0 0 8px 0; font-size:12px; text-transform:uppercase; color:var(--ink-soft);">1. Honorarios Profesionales</h4>
+          ${hons.length === 0 ? '<div style="font-size:12px; color:var(--ink-soft);">Sin honorarios pendientes registrados.</div>' : `
+            <table style="font-size:12.5px;">
+              <tbody>
+                ${hons.map(h => `
+                  <tr>
+                    <td>${escapeHtml(h.concepto)}</td>
+                    <td style="text-align:right;">Saldo: <strong>${formatDinero(Number(h.monto||0) - Number(h.pagado||0))}</strong></td>
+                  </tr>
+                `).join('')}
+                <tr style="font-weight:600; border-top:1px solid var(--line);">
+                  <td>Subtotal Honorarios a Cobrar:</td>
+                  <td style="text-align:right; color:var(--navy);">${formatDinero(saldoHonorarios)}</td>
+                </tr>
+              </tbody>
+            </table>
+          `}
+        </div>
+
+        <!-- Desglose Gastos Adelantados -->
+        <div style="background:#fff; border:1px solid var(--line); padding:12px; border-radius:3px; margin-bottom:12px;">
+          <h4 style="margin:0 0 8px 0; font-size:12px; text-transform:uppercase; color:var(--ink-soft);">2. Gastos Adelantados por el Estudio (A reintegrar)</h4>
+          ${gastos.length === 0 ? '<div style="font-size:12px; color:var(--green); font-weight:500;">✓ No hay gastos pendientes de reintegro en esta causa.</div>' : `
+            <table style="font-size:12.5px;">
+              <tbody>
+                ${gastos.map(g => `
+                  <tr>
+                    <td>${fmtFecha(g.fecha)} - ${escapeHtml(g.concepto)}</td>
+                    <td style="text-align:right;">${formatDinero(g.importe)}</td>
+                  </tr>
+                `).join('')}
+                <tr style="font-weight:600; border-top:1px solid var(--line);">
+                  <td>Subtotal Gastos a Reintegrar:</td>
+                  <td style="text-align:right; color:var(--burgundy);">${formatDinero(totalGastosPendientes)}</td>
+                </tr>
+              </tbody>
+            </table>
+          `}
+        </div>
+
+        <!-- Total General -->
+        <div style="background:var(--panel); border:2px solid var(--navy); padding:14px; border-radius:4px; display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div>
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink-soft); font-weight:700;">TOTAL GENERAL A ABONAR</div>
+            <div style="font-size:12px; color:var(--ink-soft);">Saldo de Honorarios + Adelantos del Estudio</div>
+          </div>
+          <div style="font-family:'Fraunces',serif; font-size:24px; color:var(--burgundy); font-weight:700;">
+            ${formatDinero(totalGeneralAPagar)}
+          </div>
+        </div>
+
+        <!-- Datos Bancarios -->
+        <div style="background:#F6F4EE; border:1px solid var(--line); padding:12px; border-radius:3px; font-size:12px; margin-bottom:16px;">
+          <strong>Datos bancarios para transferencia:</strong><br>
+          Banco: <span>${escapeHtml(state.config.banco || 'Banco Galicia')}</span> | Titular: <span>${escapeHtml(state.config.titularCuenta || 'Ignacio Toto')}</span><br>
+          Alias: <strong style="color:var(--navy);">${escapeHtml(state.config.alias || 'ESTUDIO.TOTO.LEGAL')}</strong> | CBU: <code>${escapeHtml(state.config.cbu || '0170099320000012345678')}</code>
+        </div>
+
+        <div class="modal-actions" style="justify-content:space-between; flex-wrap:wrap; gap:8px;">
+          <button type="button" class="btn secondary" onclick="closeModal()">Cerrar</button>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn secondary" onclick="copiarResumenCobranza('${exp.id}')">📋 Copiar Resumen</button>
+            <button type="button" class="btn wa" onclick="enviarCobranzaWhatsApp('${exp.id}')">📱 Enviar Cobranza por WA</button>
+          </div>
+        </div>
+      `;
+    })()
   };
 
-  const titleMap = { 'cliente': 'Cliente', 'expediente': 'Expediente', 'honorario': 'Honorario', 'gasto': 'Gasto', 'evento': 'Evento', 'vencimiento': 'Vencimiento', 'documento': 'Documento', 'tramite': 'Plazo Configurado', 'formato': 'Formato Base' };
+  const titleMap = { 
+    'cliente': 'Cliente', 
+    'expediente': 'Expediente', 
+    'honorario': 'Honorario', 
+    'gasto': 'Gasto', 
+    'evento': 'Actuación / Evento', 
+    'vencimiento': 'Vencimiento', 
+    'documento': 'Documento de la Causa', 
+    'tramite': 'Plazo de Trámite', 
+    'formato': 'Plantilla de Escrito',
+    'seleccionar_causa_para_plantilla': 'Seleccionar Causa para el Escrito',
+    'redactar_escrito': 'Redacción Automática de Escrito',
+    'estado_cuenta': 'Estado de Cuenta y Cobranza al Cliente'
+  };
   
   if(!modales[type]) return '';
-  return `<div class="overlay" onclick="if(event.target===this) closeModal()"><div class="modal"><h3>${data?.id?'Editar':'Nuevo'} ${titleMap[type]}</h3>${modales[type]}</div></div>`;
+  const isWide = type === 'redactar_escrito' || type === 'estado_cuenta';
+  return `<div class="overlay" onclick="if(event.target===this) closeModal()"><div class="modal ${isWide?'wide':''}"><h3>${data?.id && !isWide ?'Editar':'Nuevo'} ${titleMap[type] || 'Registro'}</h3>${modales[type]}</div></div>`;
 }
 
 function attachModalEvents(){
   const actions = {
-    'mform_cliente': saveCliente, 'mform_expediente': saveExpediente, 'mform_honorario': saveHonorario,
-    'mform_gasto': saveGasto, 'mform_evento': saveEvento, 'mform_vencimiento': saveVencimiento,
-    'mform_documento': saveDocumento, 'mform_tramite': saveTramite, 'mform_formato': saveFormato
+    'mform_cliente': saveCliente, 
+    'mform_expediente': saveExpediente, 
+    'mform_honorario': saveHonorario,
+    'mform_gasto': saveGasto, 
+    'mform_evento': saveEvento, 
+    'mform_vencimiento': saveVencimiento,
+    'mform_documento': saveDocumento, 
+    'mform_tramite': saveTramite, 
+    'mform_formato': saveFormato
   };
   
   Object.keys(actions).forEach(id => {
@@ -797,7 +2201,7 @@ function attachModalEvents(){
       form.addEventListener('submit', async (ev)=>{
         ev.preventDefault();
         const obj = Object.fromEntries(new FormData(form).entries());
-        if(state.modal.data && state.modal.data.id) obj.id = state.modal.data.id;
+        if(state.modal && state.modal.data && state.modal.data.id) obj.id = state.modal.data.id;
         await actions[id](obj);
       });
     }
@@ -807,14 +2211,29 @@ function attachModalEvents(){
   if(formConfig) {
     formConfig.addEventListener('submit', async (ev)=>{
       ev.preventDefault();
-      state.config.usuarioActual = new FormData(formConfig).get('usuarioActual');
-      state.config.rutaRaiz = new FormData(formConfig).get('rutaRaiz');
-      await saveState(); showToast('Configuración guardada'); render();
+      const fd = new FormData(formConfig);
+      state.config = {
+        ...state.config,
+        usuarioActual: fd.get('usuarioActual'),
+        rutaRaiz: fd.get('rutaRaiz'),
+        abogadoNombre: fd.get('abogadoNombre'),
+        abogadoMatricula: fd.get('abogadoMatricula'),
+        abogadoCuit: fd.get('abogadoCuit'),
+        domicilioConstituido: fd.get('domicilioConstituido'),
+        domicilioElectronico: fd.get('domicilioElectronico'),
+        banco: fd.get('banco'),
+        titularCuenta: fd.get('titularCuenta'),
+        alias: fd.get('alias'),
+        cbu: fd.get('cbu')
+      };
+      await saveState(); 
+      showToast('Configuración profesional y bancaria guardada.'); 
+      render();
     });
   }
 }
 
-// --- Inicio ---
+// --- Inicialización ---
 loadState();
 </script>
 </body>
