@@ -67,7 +67,7 @@ venv.bak/
 *.swp
 *.swo
 *~
-gemini-code-*.html
+
 
 # Operating System Files
 .DS_Store
