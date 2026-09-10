@@ -1,0 +1,43 @@
+
+      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <head>
+        <meta charset="utf-8">
+        <title>Cédula de Notificación Básica</title>
+        <!--[if gte mso 9]>
+        <xml>
+          <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>100</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+          </w:WordDocument>
+        </xml>
+        <![endif]-->
+        <style>
+          @page {
+              mso-page-orientation: portrait;
+              size: 21cm 29.7cm; /* A4 */
+              margin: 3cm 2cm 3cm 5cm; /* Superior 3cm, Inferior 3cm, Izquierdo 5cm, Derecho 2cm */
+          }
+          @page Section1 {
+              mso-header-margin: 1.5cm;
+              mso-footer-margin: 1.5cm;
+          }
+          div.Section1 { page: Section1; }
+          p {
+              font-family: "Times New Roman", serif;
+              font-size: 12pt;
+              line-height: 150%;
+              text-align: justify;
+              margin: 0;
+              margin-bottom: 0pt;
+              mso-line-height-rule: exactly;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="Section1">
+          <p>CÉDULA DE NOTIFICACIÓN</p><p>&nbsp;</p><p>Juzgado: Juzgado Civil Nro 10</p><p>Expediente: "PEREZ CARLOS C/ ASEGURADORA S/ DAÑOS Y PERJUICIOS" (Expte. 12345/2023)</p><p>Destinatario: Aseguradora La Caja</p><p>&nbsp;</p><p>Señor/a, me dirijo a usted a fin de notificarle la siguiente resolución dictada en los autos de referencia:</p><p>&nbsp;</p><p>"Buenos Aires, [FECHA]... [TEXTO DE LA RESOLUCIÓN]... Fdo. Juez."</p><p>&nbsp;</p><p>Queda usted debidamente notificado.</p><p>&nbsp;</p><p>Firma: Dr. Estudio Jurídico</p>
+        </div>
+      </body>
+      </html>
+    
